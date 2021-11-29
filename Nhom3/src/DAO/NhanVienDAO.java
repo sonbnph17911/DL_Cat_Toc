@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * @author DuongNVPH
  */
 public class NhanVienDAO implements HairSalonDAO<NhanVien, String>{
-    String insert = "insert into nhanvien values(?,?,?,?,?,?,?,?,?)";
+    String insert = "insert into nhanvien values(?,?,?,?,?,?,?,?,?,1)";
     String update ="update nhanvien set matkhau=?,vaitro=?,hoten=?,"
             + " ngaysinh=?,ngaynhanviec=?,diachi=?,sodienthoai=?,ghichu=? where manhanvien=?";
     String delete = "delete from nhanvien where manhanvien=?";
@@ -40,6 +40,7 @@ public class NhanVienDAO implements HairSalonDAO<NhanVien, String>{
                 model.setDiaChi(rs.getString("diachi"));
                 model.setSoDienThoai(rs.getString("sodienthoai"));
                 model.setGhiChu(rs.getString("ghiChu"));
+                model.setTinhTrang(rs.getBoolean("tinhtrang"));
                 list.add(model);
             }
             rs.getStatement().getConnection().close();
@@ -49,6 +50,19 @@ public class NhanVienDAO implements HairSalonDAO<NhanVien, String>{
         }
         return list ;
     }
+    
+    public ArrayList<NhanVien> selectByTinhTrang(boolean tinhTrang){
+        String sql ="select * from nhanvien where tinhtrang=?";
+        return selectBySQL(sql, tinhTrang);
+    }
+    
+    public void xoaTamThoi(boolean  tinhTrang , String maNhanVien) throws SQLException{
+        String sql = "update nhanvien set tinhtrang=? where manhanvien =?";
+        JdbcHelper.executeUpdate(sql, tinhTrang,maNhanVien);
+    }
+    
+    
+    
     public ArrayList<NhanVien> selectByKeyWord(String keyword){
         String sql = "select * from nhanvien where hoten LIKE ?";
         return selectBySQL(sql, "%"+keyword+"%");

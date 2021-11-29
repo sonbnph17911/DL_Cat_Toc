@@ -8,9 +8,13 @@ package SWING;
 import DAO.NhanVienDAO;
 import HELPER.DateHelper;
 import HELPER.DialogHelper;
+import HELPER.ShareHelper;
 import MODEL.NhanVien;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -69,6 +73,9 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
         btnMoi = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         txtXacNhanMatKhau = new javax.swing.JPasswordField();
+        btnTatCaNhanVien = new javax.swing.JButton();
+        btnDanhSachNhanVienHienTai = new javax.swing.JButton();
+        btnDanhSachNhanVienDaKhoa = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -221,11 +228,21 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
         btnKhoa.setBackground(new java.awt.Color(204, 204, 255));
         btnKhoa.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
         btnKhoa.setText("KHÓA");
+        btnKhoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKhoaActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnKhoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 0, 120, 110));
 
         btnMoKhoa.setBackground(new java.awt.Color(204, 204, 255));
         btnMoKhoa.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
         btnMoKhoa.setText("MỞ KHÓA");
+        btnMoKhoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoKhoaActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnMoKhoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 130, 120));
 
         btnSua.setBackground(new java.awt.Color(204, 204, 255));
@@ -265,6 +282,33 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
         jLabel11.setText("Xác nhận mật khẩu :");
         add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 480, -1, -1));
         add(txtXacNhanMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 480, 200, 40));
+
+        btnTatCaNhanVien.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnTatCaNhanVien.setText("Tất cả nhân viên");
+        btnTatCaNhanVien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTatCaNhanVienActionPerformed(evt);
+            }
+        });
+        add(btnTatCaNhanVien, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 0, 160, 30));
+
+        btnDanhSachNhanVienHienTai.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnDanhSachNhanVienHienTai.setText("Danh sách nhân viên hiện tại");
+        btnDanhSachNhanVienHienTai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDanhSachNhanVienHienTaiActionPerformed(evt);
+            }
+        });
+        add(btnDanhSachNhanVienHienTai, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 0, 220, 30));
+
+        btnDanhSachNhanVienDaKhoa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnDanhSachNhanVienDaKhoa.setText("Danh sách nhân viên đã khóa");
+        btnDanhSachNhanVienDaKhoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDanhSachNhanVienDaKhoaActionPerformed(evt);
+            }
+        });
+        add(btnDanhSachNhanVienDaKhoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 0, 240, 30));
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
@@ -294,15 +338,57 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         update();
     }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnKhoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoaActionPerformed
+        try {
+            // TODO add your handling code here:
+            lock();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyNhanVienPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnKhoaActionPerformed
+
+    private void btnMoKhoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoKhoaActionPerformed
+        try {
+            // TODO add your handling code here:
+            unlock();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyNhanVienPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnMoKhoaActionPerformed
+
+    private void btnTatCaNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTatCaNhanVienActionPerformed
+        // TODO add your handling code here:
+        initTableNhanVien();
+        btnKhoa.setEnabled(false);
+        btnMoKhoa.setEnabled(false);
+    }//GEN-LAST:event_btnTatCaNhanVienActionPerformed
+
+    private void btnDanhSachNhanVienHienTaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDanhSachNhanVienHienTaiActionPerformed
+        // TODO add your handling code here:
+        initTableNhanVienTheoTinhTrang(true);
+        btnMoKhoa.setEnabled(false);
+        btnKhoa.setEnabled(true);
+    }//GEN-LAST:event_btnDanhSachNhanVienHienTaiActionPerformed
+
+    private void btnDanhSachNhanVienDaKhoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDanhSachNhanVienDaKhoaActionPerformed
+        // TODO add your handling code here:
+        initTableNhanVienTheoTinhTrang(false);
+        btnKhoa.setEnabled(false);
+        btnMoKhoa.setEnabled(true);
+    }//GEN-LAST:event_btnDanhSachNhanVienDaKhoaActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser JdcNgayNhanViec;
     private com.toedter.calendar.JDateChooser JdcNgaySinh;
+    private javax.swing.JButton btnDanhSachNhanVienDaKhoa;
+    private javax.swing.JButton btnDanhSachNhanVienHienTai;
     private javax.swing.JButton btnKhoa;
     private javax.swing.JButton btnMoKhoa;
     private javax.swing.JButton btnMoi;
     private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnTatCaNhanVien;
     private javax.swing.JButton btnThem;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
@@ -358,6 +444,55 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
         }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    
+    void initTableNhanVienTheoTinhTrang(boolean tinhTrang){
+        DefaultTableModel dtm = (DefaultTableModel) tblNhanVien.getModel();
+        dtm.setRowCount(0);
+        ArrayList<NhanVien> list = dao.selectByTinhTrang(tinhTrang);
+        try {
+            for (NhanVien nhanVien : list) {
+            Object[] data = {nhanVien.getMaNhanVien(),
+                nhanVien.getMatKhau(),
+                nhanVien.isVaiTro()?"Trưởng phòng":"Nhân viên",
+                nhanVien.getHoTen(),
+                DateHelper.toString(nhanVien.getNgaySinh()),
+                DateHelper.toString(nhanVien.getNgayNhanVien()),
+                nhanVien.getDiaChi()
+                ,nhanVien.getSoDienThoai(),
+                nhanVien.getGhiChu()};
+            dtm.addRow(data);
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    void lock() throws SQLException{
+        if (!ShareHelper.isManager()) {
+            DialogHelper.alert(this, "Chỉ quản lý mới được phép khóa");
+        }else{
+            if (!ShareHelper.user.getMaNhanVien().equalsIgnoreCase(txtMaNhanVien.getText())) {
+                String maNhanVien = (String) tblNhanVien.getValueAt(row, 0);
+                dao.xoaTamThoi(false, maNhanVien);
+                initTableNhanVienTheoTinhTrang(true);
+            }else{
+                DialogHelper.alert(this, "Bạn không được khóa chính mình !");
+            }
+        }
+    }
+    void unlock() throws SQLException{
+        if (!ShareHelper.isManager()) {
+            DialogHelper.alert(this, "Quản lý mới được phép mở khóa !");
+        }else{
+            if (!ShareHelper.user.getMaNhanVien().equalsIgnoreCase(txtMaNhanVien.getText())) {
+                String maNhanVien = (String) tblNhanVien.getValueAt(row, 0);
+            dao.xoaTamThoi(true, maNhanVien);
+            initTableNhanVienTheoTinhTrang(false);
+            }else{
+                DialogHelper.alert(this, "Bạn không được khóa chính mình !");
+            }
         }
     }
     NhanVien getForm(){

@@ -23,8 +23,8 @@ public class NhanVien {
     private String diaChi ;
     private String soDienThoai ;
     private String ghiChu ;
-
-    public NhanVien(String maNhanVien, String matKhau, boolean vaiTro, String hoTen, Date ngaySinh, Date ngayNhanVien, String diaChi, String soDienThoai, String ghiChu) {
+    private boolean tinhTrang ;
+    public NhanVien(String maNhanVien, String matKhau, boolean vaiTro, String hoTen, Date ngaySinh, Date ngayNhanVien, String diaChi, String soDienThoai, String ghiChu,boolean  tinhTrang) {
         this.maNhanVien = maNhanVien;
         this.matKhau = matKhau;
         this.vaiTro = vaiTro;
@@ -34,6 +34,7 @@ public class NhanVien {
         this.diaChi = diaChi;
         this.soDienThoai = soDienThoai;
         this.ghiChu = ghiChu;
+        this.tinhTrang = tinhTrang;
     }
 
    
@@ -114,6 +115,14 @@ public class NhanVien {
 
     public void setGhiChu(String ghiChu) {
         this.ghiChu = ghiChu;
+    }
+
+    public boolean isTinhTrang() {
+        return tinhTrang;
+    }
+
+    public void setTinhTrang(boolean tinhTrang) {
+        this.tinhTrang = tinhTrang;
     }
 
     
