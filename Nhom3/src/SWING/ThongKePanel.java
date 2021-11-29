@@ -52,6 +52,11 @@ public class ThongKePanel extends javax.swing.JPanel {
         pnlThongKe.setLayout(new java.awt.BorderLayout());
 
         cbbNam.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbbNam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbNamActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Năm :");
 
@@ -84,40 +89,48 @@ public class ThongKePanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cbbNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbNamActionPerformed
+        // TODO add your handling code here:
+        int viTri = cbbNam.getSelectedIndex();
+        if (viTri >= 0) {
+            fillThongKeDoanhThu();
+        }
+    }//GEN-LAST:event_cbbNamActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbbNam;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel pnlThongKe;
     // End of variables declaration//GEN-END:variables
-    LichDatDAO lddao = new LichDatDAO();
+    HoaDonDAO hddao = new HoaDonDAO();
     ThongKeDAO dao = new ThongKeDAO();
     void init(){
         fillCbbNam();
-        fillThongKeLichDatTheoNam();
+        fillThongKeDoanhThu();
         
     }
     
     void fillCbbNam(){
         DefaultComboBoxModel model = (DefaultComboBoxModel) cbbNam.getModel();
         model.removeAllElements();
-        ArrayList<Integer> list = lddao.selectYears();
+        ArrayList<Integer> list = hddao.selectYears();
         for (Integer nam : list) {
             model.addElement(nam);
         }
     }
     
-    void fillThongKeLichDatTheoNam(){
+    void fillThongKeDoanhThu(){
         Integer nam = (Integer) cbbNam.getSelectedItem();
-        ArrayList<Object[]> list = dao.getThongKeDatLich(nam);
+        ArrayList<Object[]> list = dao.getThongKeDoanhThu(nam);
         DefaultCategoryDataset barChartData = new DefaultCategoryDataset();
         for (Object[] row : list) {
-            int solichdat = (int) row[0];
-            int manhanvien = (int) row[1];
-            barChartData.setValue(solichdat,"Số lịch đặt",String.valueOf(manhanvien));
-            JFreeChart barChart = ChartFactory.createAreaChart("Thống kê lịch đặt theo năm", 
-                    "Số nhân viên ", "Số lượng lịch đặt", 
-                barChartData,PlotOrientation.VERTICAL,false,true,true);
+            String hoaDon = (String) row[0];
+            String doanhThu = String.format("%.0f", row[1]);
+            barChartData.setValue(Double.parseDouble(doanhThu),"Số lịch đặt",hoaDon);
+            JFreeChart barChart = ChartFactory.createBarChart("Thống kê doanh thu theo năm", 
+                    "Mã hóa đơn", "Doanh thu", 
+                barChartData,PlotOrientation.VERTICAL,false,true,false);
         CategoryPlot barchrt = barChart.getCategoryPlot();
         barchrt.setRangeGridlinePaint(Color.GREEN);
         ChartPanel barPanel = new ChartPanel(barChart);
