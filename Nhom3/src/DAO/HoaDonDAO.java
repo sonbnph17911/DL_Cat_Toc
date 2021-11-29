@@ -46,7 +46,20 @@ public class HoaDonDAO implements HairSalonDAO<HoaDon, String>{
     }
     
     
-    
+    public ArrayList<Integer> selectYears(){
+        String sql = "select  distinct year(ngaythanhtoan) from hoadon order by year(ngaythanhtoan) desc ";
+        ArrayList<Integer> list = new ArrayList<>();
+        try {
+            ResultSet rs = JdbcHelper.executeQuery(sql);
+            while(rs.next()){
+                Integer nam = rs.getInt(1);
+                list.add(nam);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list ;
+    }
     
     
     public ArrayList<HoaDon> selectByKeyword(String keyword){

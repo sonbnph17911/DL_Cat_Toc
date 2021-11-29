@@ -33,11 +33,11 @@ public class ThongKeDAO {
         return null ;
     }
     
-    public ArrayList<Object[]> getThongKeDatLich(Integer nam){
-        String sql = "{CALL sp_thongkelichdattheonam (?)}";
-        String[] cols = {"lichdat","nhanvien"};
-        return this.getListOfArray(sql, cols, nam);
+    public ArrayList<Object[]> getThongKeDoanhThu(Integer nam){
+        String sql = "{CALL sp_thongkedoanhthu (?)}";
+        String[] cols = {"hoadon","DoanhThu"};
+        return this.getListOfArray(sql,cols, nam);
     }
     
-    
+     
 }
