@@ -413,8 +413,24 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
             new String [] {
                 "TT", "Mã HD", "Mã DV", "Giảm giá", "Tổng tiền", "Thành tiền"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(tblChiTietHoaDon);
+        if (tblChiTietHoaDon.getColumnModel().getColumnCount() > 0) {
+            tblChiTietHoaDon.getColumnModel().getColumn(0).setResizable(false);
+            tblChiTietHoaDon.getColumnModel().getColumn(1).setResizable(false);
+            tblChiTietHoaDon.getColumnModel().getColumn(2).setResizable(false);
+            tblChiTietHoaDon.getColumnModel().getColumn(3).setResizable(false);
+            tblChiTietHoaDon.getColumnModel().getColumn(4).setResizable(false);
+            tblChiTietHoaDon.getColumnModel().getColumn(5).setResizable(false);
+        }
 
         jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 440, 210));
 
@@ -794,6 +810,10 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
         fillTableDichVu();
         fillTableHoaDon();
         status(true);
+        txtTienGiam.setEditable(false);
+        txtTongTien.setEditable(false);
+        txtThanhTien2.setEditable(false);
+        txtMaDichVu.setEnabled(false);
     }
     void fillTableDichVu(){
         Locale  localeEN = new Locale("vn","VN");
