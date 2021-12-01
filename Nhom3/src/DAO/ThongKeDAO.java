@@ -40,5 +40,17 @@ public class ThongKeDAO {
         return this.getListOfArray(sql,cols, nam);
     }
     
+    public ArrayList<Object[]> getThongKeGiamGia(Date nam){
+        String sql = "{CALL sp_thongketiengiam (?)}";
+        String[] cols = {"hoadon","giamgia"};
+        return this.getListOfArray(sql,cols, nam);
+    }
+    
+    public ArrayList<Object[]> getThongKeTongTien(Date nam){
+        String sql = "{CALL sp_thongketongtien (?)}";
+        String[] cols = {"hoadon","tongtien"};
+        return this.getListOfArray(sql,cols, nam);
+    }
+    
      
 }
