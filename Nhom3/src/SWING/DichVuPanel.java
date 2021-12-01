@@ -9,6 +9,7 @@ import DAO.DichVuDAO;
 import HELPER.DialogHelper;
 import HELPER.ShareHelper;
 import MODEL.DichVu;
+import java.util.List;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -206,7 +207,9 @@ public class DichVuPanel extends javax.swing.JPanel {
 
     private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
         // TODO add your handling code here:
-        insert();
+        if(validateForm(false)){
+            insert();
+        }
     }//GEN-LAST:event_btnthemActionPerformed
 
     private void tblbangdichvuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblbangdichvuMouseClicked
@@ -223,7 +226,9 @@ public class DichVuPanel extends javax.swing.JPanel {
 
     private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
         // TODO add your handling code here:
-        update();
+        if(validateForm(false)){
+            update();
+        }
     }//GEN-LAST:event_btnsuaActionPerformed
 
     void clearform() {
@@ -334,4 +339,32 @@ public class DichVuPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtmadichvu;
     private javax.swing.JTextField txttendichvu;
     // End of variables declaration//GEN-END:variables
+ public boolean validateForm(boolean chk) {
+        if (txtmadichvu.getText().length() == 0) {
+           DialogHelper.alert(this, "Không được phép để trống mã dịch vụ!");
+            txtmadichvu.requestFocus();
+            return false;
+        } else if (txttendichvu.getText().length() == 0) {
+            DialogHelper.alert(this, "Không được phép để trống tên dịch vụ!");
+            txttendichvu.requestFocus();
+            return false;
+        } else if (txtgiatien.getText().length() == 0) {
+            DialogHelper.alert(this, "Bạn chưa nhập giá tiền!");
+            txtgiatien.requestFocus();
+            return false;
+        } 
+
+       List<DichVu> list = dvd.selectAll();
+        if (chk) {
+            for (DichVu cd : list) {
+                if (txtmadichvu.getText().equals(cd.getMaDichVu())) {
+                    DialogHelper.alert(this, "Mã dịch vụ đã tồn tại");
+                    txtmadichvu.requestFocus();
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }

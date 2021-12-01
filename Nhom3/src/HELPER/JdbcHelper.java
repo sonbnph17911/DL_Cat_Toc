@@ -12,9 +12,9 @@ import java.sql.*;
  */
 public class JdbcHelper {
     private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"; 
-    private static String url = "jdbc:sqlserver://localhost\\DESKTOP-IB717UB\\SQLEXPRESS:1433;databaseName=DuAnNhom3";
+   private static String url = "jdbc:sqlserver://localhost\\DESKTOP-0R9BA8H\\SQLEXPRESS:1433;databaseName=DuAnNhom32";
     private static String username = "sa";
-    private static String password = "123";
+    private static String password = "12345678";
     
     static {
         try {
