@@ -46,11 +46,21 @@ public class ThongKePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         pnlThongKe = new javax.swing.JPanel();
+        pnlTienGiam = new javax.swing.JPanel();
+        pnlTongTien = new javax.swing.JPanel();
         cbbNam = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
 
         pnlThongKe.setLayout(new java.awt.BorderLayout());
+        jTabbedPane1.addTab("Thống kê doanh thu", pnlThongKe);
+
+        pnlTienGiam.setLayout(new java.awt.BorderLayout());
+        jTabbedPane1.addTab("Thống kê tiền giảm", pnlTienGiam);
+
+        pnlTongTien.setLayout(new java.awt.BorderLayout());
+        jTabbedPane1.addTab("Thống kê tổng tiền", pnlTongTien);
 
         cbbNam.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbbNam.addActionListener(new java.awt.event.ActionListener() {
@@ -66,16 +76,13 @@ public class ThongKePanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(pnlThongKe, javax.swing.GroupLayout.PREFERRED_SIZE, 1279, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(cbbNam, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addGap(13, 13, 13)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(cbbNam, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(858, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1340, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -84,9 +91,11 @@ public class ThongKePanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbbNam, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addComponent(pnlThongKe, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(539, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGap(0, 39, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -95,6 +104,8 @@ public class ThongKePanel extends javax.swing.JPanel {
         int viTri = cbbNam.getSelectedIndex();
         if (viTri >= 0) {
             fillThongKeDoanhThu();
+            fillThongKeGiamGia();
+            fillThongKeTongTien();
         }
     }//GEN-LAST:event_cbbNamActionPerformed
 
@@ -102,7 +113,10 @@ public class ThongKePanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbbNam;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel pnlThongKe;
+    private javax.swing.JPanel pnlTienGiam;
+    private javax.swing.JPanel pnlTongTien;
     // End of variables declaration//GEN-END:variables
     HoaDonDAO hddao = new HoaDonDAO();
     ThongKeDAO dao = new ThongKeDAO();
@@ -128,9 +142,9 @@ public class ThongKePanel extends javax.swing.JPanel {
         for (Object[] row : list) {
             String hoaDon = (String) row[0];
             String doanhThu = String.format("%.0f", row[1]);
-            barChartData.setValue(Double.parseDouble(doanhThu),"Số lịch đặt",hoaDon);
-            JFreeChart barChart = ChartFactory.createBarChart("Thống kê doanh thu theo năm", 
-                    "Mã hóa đơn", "Doanh thu", 
+            barChartData.setValue(Double.parseDouble(doanhThu),"Số hóa đơn",hoaDon);
+            JFreeChart barChart = ChartFactory.createBarChart3D("Thống kê doanh thu", 
+                    "Mã hóa đơn", "Tiền", 
                 barChartData,PlotOrientation.VERTICAL,false,true,false);
         CategoryPlot barchrt = barChart.getCategoryPlot();
         barchrt.setRangeGridlinePaint(Color.GREEN);
@@ -138,6 +152,47 @@ public class ThongKePanel extends javax.swing.JPanel {
         pnlThongKe.removeAll();
         pnlThongKe.add(barPanel, BorderLayout.CENTER);
         pnlThongKe.validate();
+        }
+    }
+    
+    void fillThongKeGiamGia(){
+        Date nam = (Date) cbbNam.getSelectedItem();
+        ArrayList<Object[]> list = dao.getThongKeGiamGia(nam);
+        DefaultCategoryDataset barChartData = new DefaultCategoryDataset();
+        for (Object[] row : list) {
+            String hoaDon = (String) row[0];
+            String doanhThu = String.format("%.0f", row[1]);
+            barChartData.setValue(Double.parseDouble(doanhThu),"Số hóa đơn",hoaDon);
+            JFreeChart barChart = ChartFactory.createBarChart3D("Thống kê giảm giá", 
+                    "Mã hóa đơn", "Tiền", 
+                barChartData,PlotOrientation.VERTICAL,false,true,false);
+        CategoryPlot barchrt = barChart.getCategoryPlot();
+        barchrt.setRangeGridlinePaint(Color.GREEN);
+        ChartPanel barPanel = new ChartPanel(barChart);
+        pnlTienGiam.removeAll();
+        pnlTienGiam.add(barPanel, BorderLayout.CENTER);
+        pnlTienGiam.validate();
+        }
+    }
+    
+    
+    void fillThongKeTongTien(){
+        Date nam = (Date) cbbNam.getSelectedItem();
+        ArrayList<Object[]> list = dao.getThongKeTongTien(nam);
+        DefaultCategoryDataset barChartData = new DefaultCategoryDataset();
+        for (Object[] row : list) {
+            String hoaDon = (String) row[0];
+            String doanhThu = String.format("%.0f", row[1]);
+            barChartData.setValue(Double.parseDouble(doanhThu),"Số hóa đơn",hoaDon);
+            JFreeChart barChart = ChartFactory.createBarChart3D("Thống kê tổng tiền", 
+                    "Mã hóa đơn", "Tiền", 
+                barChartData,PlotOrientation.VERTICAL,false,true,false);
+        CategoryPlot barchrt = barChart.getCategoryPlot();
+        barchrt.setRangeGridlinePaint(Color.GREEN);
+        ChartPanel barPanel = new ChartPanel(barChart);
+        pnlTongTien.removeAll();
+        pnlTongTien.add(barPanel, BorderLayout.CENTER);
+        pnlTongTien.validate();
         }
     }
 
