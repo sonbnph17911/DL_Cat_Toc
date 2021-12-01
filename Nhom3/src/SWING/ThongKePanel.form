@@ -73,7 +73,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="N&#x103;m :"/>
+        <Property name="text" type="java.lang.String" value="Ng&#xe0;y thanh to&#xe1;n :"/>
       </Properties>
     </Component>
   </SubComponents>

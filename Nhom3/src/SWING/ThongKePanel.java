@@ -13,6 +13,7 @@ import MODEL.LichDat;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
@@ -58,7 +59,7 @@ public class ThongKePanel extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setText("Năm :");
+        jLabel1.setText("Ngày thanh toán :");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -114,14 +115,14 @@ public class ThongKePanel extends javax.swing.JPanel {
     void fillCbbNam(){
         DefaultComboBoxModel model = (DefaultComboBoxModel) cbbNam.getModel();
         model.removeAllElements();
-        ArrayList<Integer> list = hddao.selectYears();
-        for (Integer nam : list) {
+        ArrayList<Date> list = hddao.selectYears();
+        for (Date nam : list) {
             model.addElement(nam);
         }
     }
     
     void fillThongKeDoanhThu(){
-        Integer nam = (Integer) cbbNam.getSelectedItem();
+        Date nam = (Date) cbbNam.getSelectedItem();
         ArrayList<Object[]> list = dao.getThongKeDoanhThu(nam);
         DefaultCategoryDataset barChartData = new DefaultCategoryDataset();
         for (Object[] row : list) {
