@@ -10,6 +10,7 @@ import MODEL.HoaDon;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,13 +47,13 @@ public class HoaDonDAO implements HairSalonDAO<HoaDon, String>{
     }
     
     
-    public ArrayList<Integer> selectYears(){
-        String sql = "select  distinct year(ngaythanhtoan) from hoadon order by year(ngaythanhtoan) desc ";
-        ArrayList<Integer> list = new ArrayList<>();
+    public ArrayList<Date> selectYears(){
+        String sql = "select  distinct ngaythanhtoan from hoadon order by ngaythanhtoan desc ";
+        ArrayList<Date> list = new ArrayList<>();
         try {
             ResultSet rs = JdbcHelper.executeQuery(sql);
             while(rs.next()){
-                Integer nam = rs.getInt(1);
+                Date nam = rs.getDate(1);
                 list.add(nam);
             }
         } catch (Exception e) {
