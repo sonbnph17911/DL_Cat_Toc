@@ -79,7 +79,6 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
         btn15 = new javax.swing.JButton();
         btnGiam0 = new javax.swing.JButton();
         btn20 = new javax.swing.JButton();
-        btnThanhToan = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -194,7 +193,7 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
         });
         jPanel1.add(btnTaoMoi);
 
-        btnTaoHoaDon.setText("TẠO HÓA ĐƠN");
+        btnTaoHoaDon.setText("TẠO HÓA ĐƠN VÀ THANH TOÁN");
         btnTaoHoaDon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTaoHoaDonActionPerformed(evt);
@@ -445,7 +444,8 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
 
         add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 330, 440, 250));
 
-        jPanel2.setLayout(new java.awt.GridLayout(3, 2));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btn5.setText("Giảm 5%");
         btn5.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -458,7 +458,7 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
                 btn5ActionPerformed(evt);
             }
         });
-        jPanel2.add(btn5);
+        jPanel2.add(btn5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 80));
 
         btn10.setText("Giảm 10%");
         btn10.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -466,7 +466,7 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
                 btn10MouseClicked(evt);
             }
         });
-        jPanel2.add(btn10);
+        jPanel2.add(btn10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 103, 100, 80));
 
         btn15.setText("Giảm 15%");
         btn15.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -474,7 +474,7 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
                 btn15MouseClicked(evt);
             }
         });
-        jPanel2.add(btn15);
+        jPanel2.add(btn15, new org.netbeans.lib.awtextra.AbsoluteConstraints(101, 103, 90, 80));
 
         btnGiam0.setText("Giảm 0%");
         btnGiam0.addActionListener(new java.awt.event.ActionListener() {
@@ -482,7 +482,7 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
                 btnGiam0ActionPerformed(evt);
             }
         });
-        jPanel2.add(btnGiam0);
+        jPanel2.add(btnGiam0, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 190, -1));
 
         btn20.setText("Giảm 20%");
         btn20.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -490,15 +490,7 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
                 btn20MouseClicked(evt);
             }
         });
-        jPanel2.add(btn20);
-
-        btnThanhToan.setText("Thanh Toán");
-        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThanhToanActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnThanhToan);
+        jPanel2.add(btn20, new org.netbeans.lib.awtextra.AbsoluteConstraints(91, 0, 100, 80));
 
         add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(588, 0, 190, 180));
 
@@ -569,13 +561,14 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
         rdoChuaThanhToan.setText("Chưa thanh toán");
         add(rdoChuaThanhToan, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, -1, -1));
 
+        btnLuuThanhToan.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         btnLuuThanhToan.setText("LƯU \nTHANH TOÁN");
         btnLuuThanhToan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLuuThanhToanActionPerformed(evt);
             }
         });
-        add(btnLuuThanhToan, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 230, 130, 100));
+        add(btnLuuThanhToan, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 270, 130, 60));
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
@@ -603,7 +596,7 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
 
     private void btnTaoHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoHoaDonActionPerformed
         // TODO add your handling code here:
-        taoHoaDon();
+        thanhToan();
     }//GEN-LAST:event_btnTaoHoaDonActionPerformed
     
     private void txtTienGiamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTienGiamActionPerformed
@@ -719,12 +712,6 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
             txtTienKhachThieu.setText("");
         }
     }
-    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
-        // TODO add your handling code here:
-//        capNhatHoaDon();
-        thanhToan();
-    }//GEN-LAST:event_btnThanhToanActionPerformed
-
     private void btnLuuThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuThanhToanActionPerformed
         // TODO add your handling code here:
         luu();
@@ -759,7 +746,6 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnQuayLai;
     private javax.swing.JButton btnTaoHoaDon;
     private javax.swing.JButton btnTaoMoi;
-    private javax.swing.JButton btnThanhToan;
     private javax.swing.JButton btnXemChiTietHoaDon;
     private javax.swing.ButtonGroup buttonGroup1;
     private com.toedter.calendar.JDateChooser dcNgayLap;
@@ -989,7 +975,13 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
             return;
         }
         try {
-            hddao.update(hd);
+            if (checkKey()==0) {
+                hddao.insert(hd);
+                fillTableHoaDon();
+            }else{
+                hddao.update(hd);
+                fillTableHoaDon();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1035,7 +1027,18 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
             dtm.addRow(rowData);
         }
     }
-    void thanhToan(){      
+    int checkKey(){
+        int kt = 0 ;
+        ArrayList<HoaDon> list = hddao.selectAll();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getMaHoaDon().equals(txtMaHoaDon.getText())) {
+                kt = 1 ;
+                break ;
+            }
+        }
+        return kt ;
+    }
+    void thanhToan(){
         capNhatHoaDon();
         ChiTietHoaDonAo(); 
 	// Sửa hóa đơn
