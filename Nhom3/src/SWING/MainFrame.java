@@ -26,7 +26,7 @@ public class MainFrame extends javax.swing.JFrame implements Runnable {
 
     /**
      * Creates new form MainFrame
-     */
+    */
     public MainFrame() {
         initComponents();
         init();
