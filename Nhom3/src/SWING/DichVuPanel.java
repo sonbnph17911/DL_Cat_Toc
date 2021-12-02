@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author
  */
+// hello
 public class DichVuPanel extends javax.swing.JPanel {
 
     /**
@@ -236,7 +237,8 @@ public class DichVuPanel extends javax.swing.JPanel {
     }
 
     void insert() {
-        DichVu dv = this.getForm();
+        if (checkKey() == 0) {
+            DichVu dv = this.getForm();
         if (dv == null) {
             return;
         }
@@ -251,6 +253,9 @@ public class DichVuPanel extends javax.swing.JPanel {
             } catch (Exception e) {
                 DialogHelper.alert(this, "Thêm thát bại!");
             }
+        }
+        }else{
+            DialogHelper.alert(this, "Trùng mã dịch vụ");
         }
     }
 
@@ -276,13 +281,17 @@ public class DichVuPanel extends javax.swing.JPanel {
 
     DichVu getForm() {
         DichVu dv = new DichVu();
-        if (txtgiatien.getText().equals("")) {
-            return null;
-        }
+        
         if (txtmadichvu.getText().equals("")) {
+            DialogHelper.alert(this,"Mã dịch vụ trống");
             return null;
         }
         if (txttendichvu.getText().equals("")) {
+            DialogHelper.alert(this,"Tên dịch vụ trống");
+            return null;
+        }
+        if (txtgiatien.getText().equals("")) {
+            DialogHelper.alert(this,"Giá tiền trống");
             return null;
         }
         dv.setMaDichVu(txtmadichvu.getText());
@@ -319,6 +328,17 @@ public class DichVuPanel extends javax.swing.JPanel {
         btnthem.setEnabled(!edit);
         btnsua.setEnabled(edit);
 
+    }
+    int checkKey(){
+        int kt = 0 ;
+        ArrayList<DichVu> list = dvd.selectAll();
+        for (DichVu dichVu : list) {
+            if (dichVu.getMaDichVu().equals(txtmadichvu.getText())) {
+                kt = 1 ;
+                break ;
+            }
+        }
+        return kt ;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnmoi;
