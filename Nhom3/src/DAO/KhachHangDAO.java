@@ -52,7 +52,10 @@ public class KhachHangDAO implements HairSalonDAO<KhachHang, String>{
         String sql = "SELECT * FROM KhachHang WHERE HoTen LIKE ?";
         return this.selectBySQL(sql, "%" + keyword + "%");
     }
-
+    public ArrayList<KhachHang> selectBySDT(String sdt){
+        String sql = "Select * from khachhang where sodienthoai LIKE ?";
+        return selectBySQL(sql, "%"+sdt+"%");
+    }
     @Override
     public void insert(KhachHang model) {
         try {

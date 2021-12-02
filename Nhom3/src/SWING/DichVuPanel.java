@@ -241,7 +241,8 @@ public class DichVuPanel extends javax.swing.JPanel {
     }
 
     void insert() {
-        DichVu dv = this.getForm();
+        if (checkey()==0) {
+            DichVu dv = this.getForm();
         if (dv == null) {
             return;
         }
@@ -257,6 +258,9 @@ public class DichVuPanel extends javax.swing.JPanel {
                 DialogHelper.alert(this, "Thêm thát bại!");
             }
         }
+        }else{
+        DialogHelper.alert(this, "Mã dịch vụ đã tồn tại");
+    }
     }
 
     void update() {
@@ -354,17 +358,19 @@ public class DichVuPanel extends javax.swing.JPanel {
             return false;
         } 
 
-       List<DichVu> list = dvd.selectAll();
-        if (chk) {
-            for (DichVu cd : list) {
-                if (txtmadichvu.getText().equals(cd.getMaDichVu())) {
-                    DialogHelper.alert(this, "Mã dịch vụ đã tồn tại");
-                    txtmadichvu.requestFocus();
-                    return false;
-                }
-            }
-        }
+
 
         return true;
     }
+ int checkey(){
+     int a=0;
+     ArrayList<DichVu> list = dvd.selectAll();
+     for (DichVu dichVu : list) {
+         if(dichVu.getMaDichVu().equals(txtmadichvu.getText())){
+             a=1;
+             break;
+         }
+     }
+     return a;
+ }
 }

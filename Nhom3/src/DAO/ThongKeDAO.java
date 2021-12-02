@@ -8,6 +8,7 @@ package DAO;
 import HELPER.JdbcHelper;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -33,9 +34,21 @@ public class ThongKeDAO {
         return null ;
     }
     
-    public ArrayList<Object[]> getThongKeDoanhThu(Integer nam){
+    public ArrayList<Object[]> getThongKeDoanhThu(Date nam){
         String sql = "{CALL sp_thongkedoanhthu (?)}";
         String[] cols = {"hoadon","DoanhThu"};
+        return this.getListOfArray(sql,cols, nam);
+    }
+    
+    public ArrayList<Object[]> getThongKeGiamGia(Date nam){
+        String sql = "{CALL sp_thongketiengiam (?)}";
+        String[] cols = {"hoadon","giamgia"};
+        return this.getListOfArray(sql,cols, nam);
+    }
+    
+    public ArrayList<Object[]> getThongKeTongTien(Date nam){
+        String sql = "{CALL sp_thongketongtien (?)}";
+        String[] cols = {"hoadon","tongtien"};
         return this.getListOfArray(sql,cols, nam);
     }
     
