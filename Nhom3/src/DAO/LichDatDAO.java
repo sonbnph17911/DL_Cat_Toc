@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author DuongNVPH
  */
-public class LichDatDAO implements HairSalonDAO<LichDat, Integer>{
+public class LichDatDAO implements HairSalonDAO<LichDat,Integer>{
     String insert = "insert into lichdat(ngaybatdau,ngayketthuc,ghichu,makhachhang,manhanvien) values(?,?,?,?,?)";
     String update = "update lichdat set ngaybatdau=?,ngayketthuc=?,ghichu=?,makhachhang=?,manhanvien=? where malichdat=?";
     String delete = "delete from lichdat where malichdat=?";
@@ -37,6 +37,10 @@ public class LichDatDAO implements HairSalonDAO<LichDat, Integer>{
             e.printStackTrace();
         }
         return list ;
+    }
+    public ArrayList<LichDat> selectByKeyWord(String keyword){
+        String sql = "Select * from lichdat where makhachhang LIKE ?";
+        return selectBySQL(sql, "%"+keyword+"%");
     }
     
     

@@ -5,10 +5,12 @@
  */
 package SWING;
 
+import DAO.KhachHangDAO;
 import DAO.LichDatDAO;
 import HELPER.DateHelper;
 import HELPER.DialogHelper;
 import HELPER.ShareHelper;
+import MODEL.KhachHang;
 import MODEL.LichDat;
 import static java.awt.Color.pink;
 import static java.awt.Color.white;
@@ -31,202 +33,11 @@ public class DatLich extends javax.swing.JPanel {
      */
     public DatLich() {
         initComponents();
-        load();
+        init();
     }
-    int index=0;
-    LichDatDAO dao=new LichDatDAO();
     
-    void load(){
-        DefaultTableModel model = (DefaultTableModel) tb.getModel();
-        model.setRowCount(0);
-        ArrayList<LichDat> list = dao.selectAll();
-        try {
-            
-             for(LichDat l:list){
-            Object[] row={
-                l.getMaLichDat(),
-                DateHelper.toString(l.getNgayBatDau()),
-                DateHelper.toString(l.getNgayKeyThuc()),
-                l.getGhiChu(),
-                l.getMaKhachHang(),
-                l.getMaNhanVien(),
-            };
-            model.addRow(row);
-        }
-        } catch (Exception e) {
-            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
-        }
-       
-    }
-    public void setTrang() {
-        txtMadatlich.setBackground(white);
-        txtNgaybatdau.setBackground(white);
-        txtNgayketthuc.setBackground(white);
-        txtGhichu.setBackground(white);
-        txtMakhachhang.setBackground(white);
-         txtManhanvien.setBackground(white);
-    }
-    void clear() {
-        setTrang();
-        LichDat model = new LichDat();
-        model.setMaNhanVien(ShareHelper.user.getMaNhanVien());
-        
-        this.setModel(model);
-        setStatus(true);
-    }
-    void setModel(LichDat model) {
-        txtMadatlich.setText(String.valueOf(model.getMaLichDat()));
-        txtNgaybatdau.setText(DateHelper.toString(model.getNgayBatDau()));
-        txtNgayketthuc.setText(DateHelper.toString(model.getNgayKeyThuc()));
-         txtGhichu.setText(model.getGhiChu());
-        txtMakhachhang.setText(model.getMaKhachHang());
-        txtManhanvien.setText(model.getMaNhanVien());
-    }
-    LichDat getModel() {
-        LichDat model = new LichDat();
-        model.setMaLichDat(Integer.valueOf(model.getMaLichDat()));
-        model.setNgayBatDau(DateHelper.toDate(txtNgaybatdau.getText()));
-        model.setNgayKeyThuc(DateHelper.toDate(txtNgayketthuc.getText()));
-        model.setGhiChu(txtGhichu.getText());
-        model.setMaKhachHang(txtMakhachhang.getText());
-        model.setMaNhanVien(txtManhanvien.getText());
-        return model;
-    }
-     void setStatus(boolean insertable) {
-        txtMadatlich.setEditable(insertable);
-        btnDatlich.setEnabled(insertable);
-        btnHuylich.setEnabled(!insertable);
-        btnDoilich.setEnabled(!insertable);
-     }
-     void update() {
-        LichDat model = getModel(); //lấy thông tin form gán cho đt nguoiHoc
-        try {
-            dao.update(model);   //chỉnh sửa bản ghi theo tt từ nguoiHoc 
-            this.load();         //đổ tt mới từ CSDL vào bảng
-            DialogHelper.alert(this, "Đổi lịch thành công!");
-        } catch (Exception e) {
-            DialogHelper.alert(this, "Đổi lịch thất bại!");
-            e.printStackTrace();
-        }
-     }
-     void delete() {
-        if (DialogHelper.confirm(this, "Bạn có muốn hủy lịch không?")) {
-            int viTri = tb.getSelectedRow();
-            if (viTri ==-1 ) {
-                return ;
-            }
-             int manh = (int) tb.getValueAt(viTri, 0);
-            try {
-                dao.delete(manh);
-                this.load();
-                this.clear();
-                DialogHelper.alert(this, "Hủy thành công!");
-            } catch (HeadlessException e) {
-                DialogHelper.alert(this, "Hủy thất bại!");
-            }
-        }}
-        
-     void insert() {
-        LichDat model = getModel();   //lấy thông tin trên form gán cho đt nguoiHoc
-        try {
-            dao.insert(model);    //thêm bản ghi mới vào CSDL theo tt từ nguoiHoc
-            this.load();            //đổ thông tin mới vào bảng
-            this.clear();           //xóa trằng form và vẫn để ở chế độ insertable
-            DialogHelper.alert(this, "Đặt lịch thành công!");
-        } catch (Exception e) {
-            DialogHelper.alert(this, "Đặt lịch thất bại!");
-        }
-    }
-      public static boolean checkNullText(JTextField txt) {
-        txt.setBackground(white);
-        if (txt.getText().trim().length() > 0) {
-            return true;
-        } else {
-            txt.setBackground(pink);
-            DialogHelper.alert(txt.getRootPane(), "Không được để trống " + txt.getName());
-            return false;
-        }
-    }
-    public static boolean checkMoTaCD(JTextArea txt) {
-        txt.setBackground(white);
-        String id = txt.getText();
-        String rgx = ".{3,255}";
-        if (id.matches(rgx)) {
-            return true;
-        } else {
-            txt.setBackground(pink);
-            DialogHelper.alert(txt.getRootPane(), txt.getName() + " phải từ 3-255 kí tự.");
-            return false;
-        }}
-     void edit() {
-        setTrang();
-        try {
-            int manh = (int) tb.getValueAt(this.index, 0); 
-            LichDat model = dao.selectByID(manh);    
-            if (model != null) {
-                this.setModel(model);   
-                this.setStatus(false);
-            }
-        } catch (Exception e) {
-            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
-        }
-    }
-     public static boolean isValidDate(String inDate) {
-
-        if (inDate == null) {
-            return false;
-        }
-
-        //set the format to use as a constructor argument
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-        if (inDate.trim().length() != dateFormat.toPattern().length()) {
-            return false;
-        }
-
-        dateFormat.setLenient(false);
-
-        try {
-            //parse the inDate parameter
-            dateFormat.parse(inDate.trim());
-        } catch (ParseException pe) {
-            return false;
-        }
-        return true;
-    }
-     public static boolean checkDate(JTextField txt) {
-        txt.setBackground(white);
-        String id = txt.getText();
-//        String rgx = "^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[1,3-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$";
-//        if (id.matches(rgx)) {
-//            return true;
-//        } else {
-//            txt.setBackground(pink);
-//            dialogHelper.alert(txt.getRootPane(), txt.getName() + " không đúng định dạng Date.");
-//            return false;
-//        }
-        if (isValidDate(id)) {
-            return true;
-        } else {
-            txt.setBackground(pink);
-            DialogHelper.alert(txt.getRootPane(), txt.getName() + " không đúng định dạng dd/MM/yyyy");
-            return false;
-        }
-    }
-    public boolean checkTrungMa(JTextField txt) {
-        txt.setBackground(white);
-        if (dao.selectByID(Integer.valueOf(txt.getText())) == null) {
-            return true;
-        } else {
-            txt.setBackground(pink);
-            DialogHelper.alert(this, txt.getName() + " đã bị tồn tại.");
-            return false;
-        }
-    }
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {                                         
         // TODO add your handling code here:
-        this.load();
-        this.setStatus(true);
     }  
     
 
@@ -240,130 +51,58 @@ public class DatLich extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblLichDat = new javax.swing.JTable();
+        jLabel9 = new javax.swing.JLabel();
+        txtTimKiemLichDatTheoMa = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        rdoNam = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
+        rdoNu = new javax.swing.JRadioButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtMadatlich = new javax.swing.JTextField();
-        txtNgaybatdau = new javax.swing.JTextField();
-        txtNgayketthuc = new javax.swing.JTextField();
-        txtGhichu = new javax.swing.JTextField();
-        txtMakhachhang = new javax.swing.JTextField();
-        txtManhanvien = new javax.swing.JTextField();
-        jSeparator1 = new javax.swing.JSeparator();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        txtMaKhachHang = new javax.swing.JTextField();
+        txtHoTen = new javax.swing.JTextField();
+        txtSoDienThoai = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tb = new javax.swing.JTable();
+        txtDiaChi = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtGhiChu = new javax.swing.JTextArea();
+        dcNgayBatDau = new com.toedter.calendar.JDateChooser();
+        dcNgayKetThuc = new com.toedter.calendar.JDateChooser();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblKhachHang = new javax.swing.JTable();
+        txtTimKiemTheoSoDienThoai = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        btnDatlich = new javax.swing.JButton();
-        btnDoilich = new javax.swing.JButton();
-        btnHuylich = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 102, 255));
-        jLabel1.setText("QUẢN LÝ ĐẶT LỊCH");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(142, 11, 233, 35));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jLabel2.setText("Mã Đặt Lịch");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 90, -1));
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jLabel3.setText("Ngày Bắt ĐẦU");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, 110, 34));
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jLabel4.setText("Ngày Kết Thúc");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 110, -1));
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jLabel5.setText("Ghi Chú");
-        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 230, -1, -1));
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jLabel6.setText("Mã Khách Hàng");
-        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 80, -1, -1));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jLabel7.setText("Mã Nhân Viên");
-        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 160, -1, -1));
-        add(txtMadatlich, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 303, 40));
-
-        txtNgaybatdau.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNgaybatdauActionPerformed(evt);
-            }
-        });
-        add(txtNgaybatdau, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 303, 40));
-        add(txtNgayketthuc, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 303, 40));
-        add(txtGhichu, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 250, 303, 40));
-        add(txtMakhachhang, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 100, 303, 40));
-        add(txtManhanvien, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 180, 303, 40));
-        add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 53, 1340, 10));
-
-        tb.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        tb.setModel(new javax.swing.table.DefaultTableModel(
+        tblLichDat.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "TT", "Ngày Bắt Đầu", "Ngày Kết Thúc", "Ghi Chú", "Mã Khách Hàng", " Mã Nhân Viên"
+                "TT", "Ngày bắt đầu ", "Ngày kết thúc", "Ghi chú", "Mã khách hàng", "Người tạo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -374,53 +113,140 @@ public class DatLich extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tb.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblLichDat.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbMouseClicked(evt);
+                tblLichDatMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tb);
-        if (tb.getColumnModel().getColumnCount() > 0) {
-            tb.getColumnModel().getColumn(0).setResizable(false);
-            tb.getColumnModel().getColumn(1).setResizable(false);
-            tb.getColumnModel().getColumn(2).setResizable(false);
-            tb.getColumnModel().getColumn(3).setResizable(false);
-            tb.getColumnModel().getColumn(5).setResizable(false);
+        jScrollPane3.setViewportView(tblLichDat);
+        if (tblLichDat.getColumnModel().getColumnCount() > 0) {
+            tblLichDat.getColumnModel().getColumn(0).setResizable(false);
+            tblLichDat.getColumnModel().getColumn(1).setResizable(false);
+            tblLichDat.getColumnModel().getColumn(2).setResizable(false);
+            tblLichDat.getColumnModel().getColumn(3).setResizable(false);
+            tblLichDat.getColumnModel().getColumn(4).setResizable(false);
+            tblLichDat.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 322, 1340, 370));
+        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 50, 630, 260));
 
-        jPanel1.setLayout(new java.awt.GridLayout(1, 1));
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel9.setText("Tìm kiếm lịch đặt theo mã khách hàng :");
+        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
-        btnDatlich.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Add.png"))); // NOI18N
-        btnDatlich.setText("ĐẶT LỊCH");
-        btnDatlich.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDatlichActionPerformed(evt);
+        txtTimKiemLichDatTheoMa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTimKiemLichDatTheoMaKeyReleased(evt);
             }
         });
-        jPanel1.add(btnDatlich);
+        jPanel2.add(txtTimKiemLichDatTheoMa, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, 340, 30));
 
-        btnDoilich.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Notes.png"))); // NOI18N
-        btnDoilich.setText("ĐỔI LỊCH");
-        btnDoilich.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDoilichActionPerformed(evt);
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 640, 310));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel1.setText("Mã khách hàng :");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel2.setText("Họ tên :");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel3.setText("Số điện thoại :");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel4.setText("Email :");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 30, -1, -1));
+
+        buttonGroup1.add(rdoNam);
+        rdoNam.setText("Nam");
+        add(rdoNam, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 100, -1, -1));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel5.setText("Giới tính :");
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 100, -1, -1));
+
+        buttonGroup1.add(rdoNu);
+        rdoNu.setText("Nữ");
+        add(rdoNu, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 100, -1, -1));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel6.setText("Địa chỉ :");
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 150, -1, -1));
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel7.setText("Ngày bắt đầu :");
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 30, -1, -1));
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel8.setText("Ngày kết thúc :");
+        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 80, -1, -1));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel10.setText("Ghi chú :");
+        add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 140, -1, -1));
+        add(txtMaKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, 200, 40));
+        add(txtHoTen, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 200, 40));
+        add(txtSoDienThoai, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 200, 40));
+        add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 30, 200, 40));
+
+        txtDiaChi.setColumns(20);
+        txtDiaChi.setRows(5);
+        jScrollPane1.setViewportView(txtDiaChi);
+
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, 200, 100));
+
+        txtGhiChu.setColumns(20);
+        txtGhiChu.setRows(5);
+        jScrollPane2.setViewportView(txtGhiChu);
+
+        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 130, 210, 110));
+        add(dcNgayBatDau, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 30, 140, 40));
+        add(dcNgayKetThuc, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 80, 140, 40));
+
+        tblKhachHang.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Mã khách hàng", "Họ tên ", "Số điện thoại", "Email", "Giới tính", "Địa chỉ"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        jPanel1.add(btnDoilich);
-
-        btnHuylich.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Delete.png"))); // NOI18N
-        btnHuylich.setText("HỦY LỊCH");
-        btnHuylich.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHuylichActionPerformed(evt);
+        tblKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblKhachHangMouseClicked(evt);
             }
         });
-        jPanel1.add(btnHuylich);
+        jScrollPane4.setViewportView(tblKhachHang);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Refresh.png"))); // NOI18N
-        jButton1.setText("TẠO MỚI");
+        add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 310, 690, 260));
+
+        txtTimKiemTheoSoDienThoai.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTimKiemTheoSoDienThoaiKeyReleased(evt);
+            }
+        });
+        add(txtTimKiemTheoSoDienThoai, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 270, 220, 30));
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel11.setText("Tìm kiếm khách hàng theo số điện thoại :");
+        add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 280, -1, -1));
+
+        jPanel1.setLayout(new java.awt.GridLayout(2, 2));
+
+        jButton1.setText("ĐẶT LỊCH");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -428,90 +254,325 @@ public class DatLich extends javax.swing.JPanel {
         });
         jPanel1.add(jButton1);
 
-        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 90, 470, 150));
+        jButton2.setText("SỬA LỊCH");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2);
+
+        jButton3.setText("HỦY LỊCH");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton3);
+
+        jButton4.setText("TẠO MỚI");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton4);
+
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 0, 250, 170));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNgaybatdauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNgaybatdauActionPerformed
+    private void txtTimKiemLichDatTheoMaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemLichDatTheoMaKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNgaybatdauActionPerformed
+        fillTableLichDat();
+    }//GEN-LAST:event_txtTimKiemLichDatTheoMaKeyReleased
 
-    private void btnDatlichActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatlichActionPerformed
-        if (checkNullText(txtMadatlich)
-                && checkNullText(txtNgaybatdau)
-                 &&checkNullText(txtNgayketthuc)
-                && checkNullText(txtGhichu)
-                && checkNullText(txtMakhachhang)
-                && checkNullText(txtManhanvien) ) {
-            if(checkDate(txtNgaybatdau)
-                &&checkDate(txtNgayketthuc))
-            {
-                if (checkTrungMa(txtMadatlich)) {                  
-                        insert();                   
-                }
-            }
-        }
-    }//GEN-LAST:event_btnDatlichActionPerformed
+    private void txtTimKiemTheoSoDienThoaiKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemTheoSoDienThoaiKeyReleased
+        // TODO add your handling code here:
+        fillTableKhachHang();
+    }//GEN-LAST:event_txtTimKiemTheoSoDienThoaiKeyReleased
 
-    private void tbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMouseClicked
-        if (evt.getClickCount() == 2) {
-            this.index = tb.rowAtPoint(evt.getPoint()); //lấy vị trí dòng được chọn
-            if (this.index >= 0) {
-                this.edit();
-            }
-        }
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        clearForm();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
-    }//GEN-LAST:event_tbMouseClicked
+    private void tblLichDatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLichDatMouseClicked
+        // TODO add your handling code here:
+        editLichDat();
+        updateStatus(false);
+    }//GEN-LAST:event_tblLichDatMouseClicked
 
-    private void btnDoilichActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoilichActionPerformed
-        if (checkNullText(txtMadatlich)
-                && checkNullText(txtNgaybatdau)
-                && checkNullText(txtNgayketthuc)
-                && checkNullText(txtGhichu)
-                && checkNullText(txtMakhachhang)
-                && checkNullText(txtManhanvien) ) {
-            if(checkDate(txtNgaybatdau)
-               &&checkDate(txtNgayketthuc))
-            {
-                if (checkTrungMa(txtMadatlich)) {                  
-                        update();                   
-                }
-            }
-        }
+    private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
+        // TODO add your handling code here:
+        editKhachHang();
+        updateStatus(false);
+    }//GEN-LAST:event_tblKhachHangMouseClicked
 
-    }//GEN-LAST:event_btnDoilichActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        suaLich();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void btnHuylichActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuylichActionPerformed
-        delete();
-    }//GEN-LAST:event_btnHuylichActionPerformed
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        huyLich();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        clear();
+        taoLichDatVaKhachHang();
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDatlich;
-    private javax.swing.JButton btnDoilich;
-    private javax.swing.JButton btnHuylich;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private com.toedter.calendar.JDateChooser dcNgayBatDau;
+    private com.toedter.calendar.JDateChooser dcNgayKetThuc;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable tb;
-    private javax.swing.JTextField txtGhichu;
-    private javax.swing.JTextField txtMadatlich;
-    private javax.swing.JTextField txtMakhachhang;
-    private javax.swing.JTextField txtManhanvien;
-    private javax.swing.JTextField txtNgaybatdau;
-    private javax.swing.JTextField txtNgayketthuc;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JRadioButton rdoNam;
+    private javax.swing.JRadioButton rdoNu;
+    private javax.swing.JTable tblKhachHang;
+    private javax.swing.JTable tblLichDat;
+    private javax.swing.JTextArea txtDiaChi;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextArea txtGhiChu;
+    private javax.swing.JTextField txtHoTen;
+    private javax.swing.JTextField txtMaKhachHang;
+    private javax.swing.JTextField txtSoDienThoai;
+    private javax.swing.JTextField txtTimKiemLichDatTheoMa;
+    private javax.swing.JTextField txtTimKiemTheoSoDienThoai;
     // End of variables declaration//GEN-END:variables
+    
+    LichDatDAO lddao = new LichDatDAO();
+    KhachHangDAO khdao = new KhachHangDAO();
+    
+    void init(){
+        fillTableLichDat();
+        fillTableKhachHang();
+    }
+    void fillTableLichDat(){
+        DefaultTableModel dtm = (DefaultTableModel) tblLichDat.getModel();
+        dtm.setRowCount(0);
+        String timKiem = txtTimKiemLichDatTheoMa.getText();
+        ArrayList<LichDat> list = lddao.selectByKeyWord(timKiem);
+        for (LichDat ld : list) {
+            dtm.addRow(new Object[]{ld.getMaLichDat(),ld.getNgayBatDau(),ld.getNgayKeyThuc(),
+                ld.getGhiChu(),ld.getMaKhachHang(),ld.getMaNhanVien()});
+        }
+    }
+    void fillTableKhachHang(){
+        DefaultTableModel dtm = (DefaultTableModel) tblKhachHang.getModel();
+        dtm.setRowCount(0);
+        String sdt = txtTimKiemTheoSoDienThoai.getText();
+        ArrayList<KhachHang> list = khdao.selectBySDT(sdt);
+        for (KhachHang kh : list) {
+            dtm.addRow(new Object[]{kh.getMaKhachHang(),kh.getHoTen(),kh.getSoDienThoai(),
+                kh.getEmail(),kh.getGioiTinh()? "Nam" : "Nữ",kh.getDiaChi()});
+            
+        }
+    }
+    
+    
+    LichDat getFormDatLich(){
+        LichDat dl = new LichDat();
+        if (dcNgayBatDau.getDate().equals("")) {
+            return null ;
+        }
+        if (dcNgayKetThuc.getDate().equals("")) {
+            return null ;
+        }
+        if (txtMaKhachHang.getText().equals("")) {
+            return null;
+        }
+        dl.setNgayBatDau(dcNgayBatDau.getDate());
+        dl.setNgayKeyThuc(dcNgayKetThuc.getDate());
+        dl.setGhiChu(txtGhiChu.getText());
+        dl.setMaKhachHang(txtMaKhachHang.getText());
+        dl.setMaNhanVien(ShareHelper.user.getMaNhanVien());
+        return dl ;
+    }
+    
+    KhachHang getFormKhachHang(){
+        KhachHang kh = new KhachHang();
+        if (txtMaKhachHang.getText().equals("")) {
+            return null;
+        }
+        if (txtHoTen.getText().equals("")) {
+            return null;
+        }
+        if (txtSoDienThoai.getText().equals("")) {
+            return null;
+        }
+        if (txtEmail.getText().equals("")) {
+            return null;
+        }
+        if (txtDiaChi.getText().equals("")) {
+            return null;
+        }
+        kh.setMaKhachHang(txtMaKhachHang.getText());
+        kh.setHoTen(txtHoTen.getText());
+        kh.setSoDienThoai(txtSoDienThoai.getText());
+        kh.setEmail(txtEmail.getText());
+        kh.setDiaChi(txtDiaChi.getText());
+        kh.setGioiTinh(rdoNam.isSelected());
+        kh.setGhiChu(txtGhiChu.getText());
+        return kh;
+    }
+    
+    void clearForm(){
+        txtMaKhachHang.setText("");
+        txtHoTen.setText("");
+        txtSoDienThoai.setText("");
+        txtEmail.setText("");
+        txtDiaChi.setText("");
+        dcNgayBatDau.setDate(DateHelper.now());
+        dcNgayKetThuc.setDate(DateHelper.now());
+        txtGhiChu.setText("");
+        rdoNam.setSelected(true);
+    }
+    
+    
+    void editKhachHang(){
+        int viTri =tblKhachHang.getSelectedRow();
+        if (viTri == -1) {
+            return ;
+        }
+        txtMaKhachHang.setText(tblKhachHang.getValueAt(viTri, 0).toString());
+        txtHoTen.setText(tblKhachHang.getValueAt(viTri, 1).toString());
+        txtSoDienThoai.setText(tblKhachHang.getValueAt(viTri, 2).toString());
+        txtEmail.setText(tblKhachHang.getValueAt(viTri, 3).toString());
+        if (tblKhachHang.getValueAt(viTri, 4).toString().equals("Nam")) {
+            rdoNam.setSelected(true);
+        }else{
+            rdoNu.setSelected(true);
+        }
+        txtDiaChi.setText(tblKhachHang.getValueAt(viTri,5).toString());
+    }
+    
+    void editLichDat(){
+        int viTri =tblLichDat.getSelectedRow();
+        if (viTri == -1) {
+            return ;
+        } 
+        KhachHang kh = khdao.selectByID((String) tblLichDat.getValueAt(viTri, 4));
+        dcNgayBatDau.setDate(DateHelper.toDate(tblLichDat.getValueAt(viTri, 1).toString()));
+        dcNgayKetThuc.setDate(DateHelper.toDate(tblLichDat.getValueAt(viTri, 2).toString()));
+        txtGhiChu.setText(tblLichDat.getValueAt(viTri, 3).toString());
+        txtMaKhachHang.setText(tblLichDat.getValueAt(viTri, 4).toString());
+        txtHoTen.setText(kh.getHoTen());
+        txtSoDienThoai.setText(kh.getSoDienThoai());
+        txtEmail.setText(kh.getEmail());
+        txtDiaChi.setText(kh.getDiaChi());
+        if (kh.getGioiTinh()) {
+            rdoNam.setSelected(true);
+        }else{
+            rdoNu.setSelected(true);
+        }
+    }
 
+    void suaLich() {
+        LichDat ld = getFormDatLich();
+        if (ld == null) {
+            return ;
+        }
+        int viTri = tblLichDat.getSelectedRow();
+        if (viTri ==-1) {
+            return ;
+        }
+        ld.setMaLichDat((int) tblLichDat.getValueAt(viTri,0));
+        try {
+            lddao.update(ld);
+            DialogHelper.alert(this, "Sửa lịch thành công");
+            fillTableLichDat();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    void updateStatus(boolean trangThai){
+        txtMaKhachHang.setEditable(trangThai);
+        txtHoTen.setEditable(trangThai);
+        txtSoDienThoai.setEditable(trangThai);
+        txtEmail.setEditable(trangThai);
+        txtDiaChi.setEditable(trangThai);
+    }
+
+    void huyLich() {
+        int viTri = tblLichDat.getSelectedRow();
+        if (viTri == -1) {
+            return ;
+        }
+        int maLichDat = (int) tblLichDat.getValueAt(viTri, 0);
+        try {
+            lddao.delete(maLichDat);
+            DialogHelper.alert(this, "Hủy lịch thành công !");
+            fillTableLichDat();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    void taodatLich() {
+        LichDat ld = getFormDatLich();
+        if (ld == null ) {
+            return ;
+        }
+        try {
+            lddao.insert(ld);
+            DialogHelper.alert(this, "Tạo lịch đặt thành công");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    void taoKhachHang(){
+        KhachHang kh = getFormKhachHang();
+        if (kh == null) {
+            return ;
+        }
+        try {
+            if (checkKey() == 0) {
+                khdao.insert(kh);
+            }else{
+                khdao.update(kh);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    void taoLichDatVaKhachHang(){
+        taoKhachHang();
+        taodatLich();
+        fillTableLichDat();
+        fillTableKhachHang();
+    }
+    int checkKey(){
+        int kt = 0 ;
+        ArrayList<KhachHang> list = khdao.selectAll();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getMaKhachHang().equals(txtMaKhachHang.getText())) {
+                kt = 1 ;
+                break ;
+            }
+        }
+        return kt ;
+    }
    }
