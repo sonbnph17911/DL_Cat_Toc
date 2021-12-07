@@ -18,11 +18,16 @@ import java.util.logging.Logger;
  * @author DuongNVPH
  */
 public class LichDatDAO implements HairSalonDAO<LichDat,Integer>{
-    String insert = "insert into lichdat(ngaybatdau,ngayketthuc,ghichu,makhachhang,manhanvien) values(?,?,?,?,?)";
-    String update = "update lichdat set ngaybatdau=?,ngayketthuc=?,ghichu=?,makhachhang=?,manhanvien=? where malichdat=?";
+    String insert = "insert into lichdat(ngaybatdau,ngayketthuc,giodatlich,ghichu,makhachhang,manhanvien,trangthai) values(?,?,?,?,?,?,?)";
+    String update = "update lichdat set ngaybatdau=?,ngayketthuc=?,giodatlich=?,ghichu=?,makhachhang=?,manhanvien=?,trangthai=? where malichdat=?";
     String delete = "delete from lichdat where malichdat=?";
     String select_by_id = "select * from lichdat where malichdat=?";
     String select_all = "select * from lichdat";
+    
+    public ArrayList<LichDat> updateStatus(String trangthai,Integer malichdat){
+        String sql = "update lichdat set trangthai=? where malichdat=?";
+        return selectBySQL(sql, trangthai,malichdat);
+    }
     
     public ArrayList<Integer> selectYears(){
         String sql = "select  distinct year(ngaybatdau) from lichdat order by year(ngaybatdau) desc ";
@@ -53,9 +58,11 @@ public class LichDatDAO implements HairSalonDAO<LichDat,Integer>{
                 model.setMaLichDat(rs.getInt("malichdat"));
                 model.setNgayBatDau(rs.getDate("ngaybatdau"));
                 model.setNgayKeyThuc(rs.getDate("ngayketthuc"));
+                model.setGioDatLich(rs.getString("giodatlich"));
                 model.setGhiChu(rs.getString("ghichu"));
                 model.setMaKhachHang(rs.getString("makhachhang"));
                 model.setMaNhanVien(rs.getString("manhanvien"));
+                model.setTrangthai(rs.getString("trangthai"));
                 list.add(model);
             }
             rs.getStatement().getConnection().close();
@@ -69,8 +76,8 @@ public class LichDatDAO implements HairSalonDAO<LichDat,Integer>{
     @Override
     public void insert(LichDat model) {
         try {
-            JdbcHelper.executeUpdate(insert, model.getNgayBatDau(),model.getNgayKeyThuc()
-                    ,model.getGhiChu(),model.getMaKhachHang(),model.getMaNhanVien());
+            JdbcHelper.executeUpdate(insert, model.getNgayBatDau(),model.getNgayKeyThuc(),model.getGioDatLich()
+                    ,model.getGhiChu(),model.getMaKhachHang(),model.getMaNhanVien(),model.getTrangthai());
         } catch (SQLException ex) {
             Logger.getLogger(LichDatDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -79,8 +86,8 @@ public class LichDatDAO implements HairSalonDAO<LichDat,Integer>{
     @Override
     public void update(LichDat model) {
         try {
-            JdbcHelper.executeUpdate(update, model.getNgayBatDau(),model.getNgayKeyThuc()
-                    ,model.getGhiChu(),model.getMaKhachHang(),model.getMaNhanVien(),model.getMaLichDat());
+            JdbcHelper.executeUpdate(update, model.getNgayBatDau(),model.getNgayKeyThuc(),model.getGioDatLich()
+                    ,model.getGhiChu(),model.getMaKhachHang(),model.getMaNhanVien(),model.getTrangthai(),model.getMaLichDat());
         } catch (SQLException ex) {
             Logger.getLogger(LichDatDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

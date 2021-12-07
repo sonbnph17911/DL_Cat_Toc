@@ -5,11 +5,13 @@
  */
 package SWING;
 
+import DAO.HoaDonDAO;
 import DAO.KhachHangDAO;
 import DAO.LichDatDAO;
 import HELPER.DateHelper;
 import HELPER.DialogHelper;
 import HELPER.ShareHelper;
+import MODEL.HoaDon;
 import MODEL.KhachHang;
 import MODEL.LichDat;
 import static java.awt.Color.pink;
@@ -53,10 +55,10 @@ public class DatLich extends javax.swing.JPanel {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tblLichDat = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         txtTimKiemLichDatTheoMa = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblLichDat = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -87,6 +89,9 @@ public class DatLich extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        txtGioDatLich = new javax.swing.JTextField();
+        btnTaoHoaDon = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(255, 255, 255));
@@ -94,19 +99,30 @@ public class DatLich extends javax.swing.JPanel {
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel9.setText("Tìm kiếm lịch đặt theo mã khách hàng :");
+        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        txtTimKiemLichDatTheoMa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTimKiemLichDatTheoMaKeyReleased(evt);
+            }
+        });
+        jPanel2.add(txtTimKiemLichDatTheoMa, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, 340, 30));
+
         tblLichDat.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "TT", "Ngày bắt đầu ", "Ngày kết thúc", "Ghi chú", "Mã khách hàng", "Người tạo"
+                "TT", "Ngày bắt đầu ", "Ngày kết thúc", "Giờ đặt lịch", "Ghi chú", "Mã khách hàng", "Người tạo", "Trạng thái"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -119,27 +135,8 @@ public class DatLich extends javax.swing.JPanel {
             }
         });
         jScrollPane3.setViewportView(tblLichDat);
-        if (tblLichDat.getColumnModel().getColumnCount() > 0) {
-            tblLichDat.getColumnModel().getColumn(0).setResizable(false);
-            tblLichDat.getColumnModel().getColumn(1).setResizable(false);
-            tblLichDat.getColumnModel().getColumn(2).setResizable(false);
-            tblLichDat.getColumnModel().getColumn(3).setResizable(false);
-            tblLichDat.getColumnModel().getColumn(4).setResizable(false);
-            tblLichDat.getColumnModel().getColumn(5).setResizable(false);
-        }
 
         jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 50, 630, 260));
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
-        jLabel9.setText("Tìm kiếm lịch đặt theo mã khách hàng :");
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
-
-        txtTimKiemLichDatTheoMa.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtTimKiemLichDatTheoMaKeyReleased(evt);
-            }
-        });
-        jPanel2.add(txtTimKiemLichDatTheoMa, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, 340, 30));
 
         add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 640, 310));
 
@@ -279,6 +276,19 @@ public class DatLich extends javax.swing.JPanel {
         jPanel1.add(jButton4);
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 0, 250, 170));
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel12.setText("Giờ đặt lịch :");
+        add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, -1, -1));
+        add(txtGioDatLich, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 210, 200, 30));
+
+        btnTaoHoaDon.setText("TẠO HÓA ĐƠN");
+        btnTaoHoaDon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTaoHoaDonActionPerformed(evt);
+            }
+        });
+        add(btnTaoHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 170, 250, 50));
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtTimKiemLichDatTheoMaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemLichDatTheoMaKeyReleased
@@ -295,12 +305,6 @@ public class DatLich extends javax.swing.JPanel {
         // TODO add your handling code here:
         clearForm();
     }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void tblLichDatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLichDatMouseClicked
-        // TODO add your handling code here:
-        editLichDat();
-        updateStatus(false);
-    }//GEN-LAST:event_tblLichDatMouseClicked
 
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
         // TODO add your handling code here:
@@ -323,8 +327,30 @@ public class DatLich extends javax.swing.JPanel {
         taoLichDatVaKhachHang();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void tblLichDatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLichDatMouseClicked
+        // TODO add your handling code here:
+        editLichDat();
+        updateStatus(false);
+    }//GEN-LAST:event_tblLichDatMouseClicked
+
+    private void btnTaoHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoHoaDonActionPerformed
+        // TODO add your handling code here:
+        int viTri = tblLichDat.getSelectedRow();
+        if (viTri == -1) {
+            return;
+        }
+        if (tblLichDat.getValueAt(viTri, 7).toString().equalsIgnoreCase("Đã tạo hóa đơn")) {
+            DialogHelper.alert(this, "Lịch này đã có hóa đơn");
+
+        } else {
+            taoHoaDon();
+        }
+
+    }//GEN-LAST:event_btnTaoHoaDonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnTaoHoaDon;
     private javax.swing.ButtonGroup buttonGroup1;
     private com.toedter.calendar.JDateChooser dcNgayBatDau;
     private com.toedter.calendar.JDateChooser dcNgayKetThuc;
@@ -335,6 +361,7 @@ public class DatLich extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -356,6 +383,7 @@ public class DatLich extends javax.swing.JPanel {
     private javax.swing.JTextArea txtDiaChi;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextArea txtGhiChu;
+    private javax.swing.JTextField txtGioDatLich;
     private javax.swing.JTextField txtHoTen;
     private javax.swing.JTextField txtMaKhachHang;
     private javax.swing.JTextField txtSoDienThoai;
@@ -365,19 +393,52 @@ public class DatLich extends javax.swing.JPanel {
     
     LichDatDAO lddao = new LichDatDAO();
     KhachHangDAO khdao = new KhachHangDAO();
-    
+    HoaDonDAO hddao = new HoaDonDAO();
     void init(){
         fillTableLichDat();
         fillTableKhachHang();
+        
     }
+    int checkTrangThai(){
+        int kt = 0 ;
+        ArrayList<LichDat> list = lddao.selectAll();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getTrangthai().equalsIgnoreCase("Đã tạo hóa đơn")){
+                kt = 1 ;
+                break ;
+            }
+        }
+        return kt ;
+    }
+    void taoHoaDon(){
+        HoaDon hd = new HoaDon();
+        int viTri = tblLichDat.getSelectedRow();
+        if (viTri == -1) {
+            return ;
+        }
+        hd.setNgayLapHoaDon(DateHelper.now());
+        hd.setNgayThanhToan(DateHelper.now());
+        hd.setMaKhachHang(tblLichDat.getValueAt(viTri, 5).toString());
+        hd.setMaNhanVien(ShareHelper.user.getMaNhanVien());
+        hd.setTrangThai(false);
+        try {
+            hddao.insert(hd);
+            DialogHelper.alert(this, "Tạo hóa đơn thành công");
+            lddao.updateStatus("Đã tạo hóa đơn", (Integer) tblLichDat.getValueAt(viTri,0));
+            fillTableLichDat();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     void fillTableLichDat(){
         DefaultTableModel dtm = (DefaultTableModel) tblLichDat.getModel();
         dtm.setRowCount(0);
         String timKiem = txtTimKiemLichDatTheoMa.getText();
         ArrayList<LichDat> list = lddao.selectByKeyWord(timKiem);
         for (LichDat ld : list) {
-            dtm.addRow(new Object[]{ld.getMaLichDat(),ld.getNgayBatDau(),ld.getNgayKeyThuc(),
-                ld.getGhiChu(),ld.getMaKhachHang(),ld.getMaNhanVien()});
+            dtm.addRow(new Object[]{ld.getMaLichDat(),ld.getNgayBatDau(),ld.getNgayKeyThuc(),ld.getGioDatLich(),
+                ld.getGhiChu(),ld.getMaKhachHang(),ld.getMaNhanVien(),ld.getTrangthai()});
         }
     }
     void fillTableKhachHang(){
@@ -404,6 +465,7 @@ public class DatLich extends javax.swing.JPanel {
         if (txtMaKhachHang.getText().equals("")) {
             return null;
         }
+        dl.setGioDatLich(txtGioDatLich.getText());
         dl.setNgayBatDau(dcNgayBatDau.getDate());
         dl.setNgayKeyThuc(dcNgayKetThuc.getDate());
         dl.setGhiChu(txtGhiChu.getText());
@@ -449,6 +511,11 @@ public class DatLich extends javax.swing.JPanel {
         dcNgayKetThuc.setDate(DateHelper.now());
         txtGhiChu.setText("");
         rdoNam.setSelected(true);
+        txtMaKhachHang.setEditable(true);
+        txtHoTen.setEditable(true);
+        txtSoDienThoai.setEditable(true);
+        txtEmail.setEditable(true);
+        txtDiaChi.setEditable(true);
     }
     
     
@@ -470,15 +537,17 @@ public class DatLich extends javax.swing.JPanel {
     }
     
     void editLichDat(){
+        DefaultTableModel dtm = (DefaultTableModel) tblLichDat.getModel();
         int viTri =tblLichDat.getSelectedRow();
         if (viTri == -1) {
             return ;
         } 
-        KhachHang kh = khdao.selectByID((String) tblLichDat.getValueAt(viTri, 4));
-        dcNgayBatDau.setDate(DateHelper.toDate(tblLichDat.getValueAt(viTri, 1).toString()));
-        dcNgayKetThuc.setDate(DateHelper.toDate(tblLichDat.getValueAt(viTri, 2).toString()));
-        txtGhiChu.setText(tblLichDat.getValueAt(viTri, 3).toString());
-        txtMaKhachHang.setText(tblLichDat.getValueAt(viTri, 4).toString());
+        KhachHang kh = khdao.selectByID((String) dtm.getValueAt(viTri, 5));
+        dcNgayBatDau.setDate(DateHelper.toDate(dtm.getValueAt(viTri, 1).toString()));
+        dcNgayKetThuc.setDate(DateHelper.toDate(dtm.getValueAt(viTri, 2).toString()));
+        txtGioDatLich.setText(dtm.getValueAt(viTri, 3).toString());
+        txtGhiChu.setText(dtm.getValueAt(viTri, 4).toString());
+        txtMaKhachHang.setText(dtm.getValueAt(viTri, 5).toString());
         txtHoTen.setText(kh.getHoTen());
         txtSoDienThoai.setText(kh.getSoDienThoai());
         txtEmail.setText(kh.getEmail());
@@ -533,6 +602,7 @@ public class DatLich extends javax.swing.JPanel {
 
     void taodatLich() {
         LichDat ld = getFormDatLich();
+        ld.setTrangthai("Chưa tạo hóa đơn");
         if (ld == null ) {
             return ;
         }

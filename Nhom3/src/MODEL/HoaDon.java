@@ -12,7 +12,7 @@ import java.util.Date;
  * @author DuongNVPH
  */
 public class HoaDon {
-    private String maHoaDon ;
+    private int maHoaDon ;
     private Date ngayLapHoaDon ;
     private Date ngayThanhToan ;
     private String maKhachHang ;
@@ -21,7 +21,7 @@ public class HoaDon {
     public HoaDon() {
     }
 
-    public HoaDon(String maHoaDon, Date ngayLapHoaDon, Date ngayThanhToan, String maKhachHang, String maNhanVien, boolean trangThai) {
+    public HoaDon(int maHoaDon, Date ngayLapHoaDon, Date ngayThanhToan, String maKhachHang, String maNhanVien, boolean trangThai) {
         this.maHoaDon = maHoaDon;
         this.ngayLapHoaDon = ngayLapHoaDon;
         this.ngayThanhToan = ngayThanhToan;
@@ -30,11 +30,11 @@ public class HoaDon {
         this.trangThai = trangThai;
     }
 
-    public String getMaHoaDon() {
+    public int getMaHoaDon() {
         return maHoaDon;
     }
 
-    public void setMaHoaDon(String maHoaDon) {
+    public void setMaHoaDon(int maHoaDon) {
         this.maHoaDon = maHoaDon;
     }
 

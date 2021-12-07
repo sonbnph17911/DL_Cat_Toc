@@ -18,8 +18,8 @@ import java.util.logging.Logger;
  *
  * @author DuongNVPH
  */
-public class HoaDonDAO implements HairSalonDAO<HoaDon, String>{
-    String insert = "insert into hoadon values(?,?,?,?,?,?)";
+public class HoaDonDAO implements HairSalonDAO<HoaDon, Integer>{
+    String insert = "insert into hoadon(ngaylaphoadon,ngaythanhtoan,makhachhang,manhanvien,trangthai) values(?,?,?,?,?)";
     String update = "update hoadon set ngaylaphoadon=?,ngaythanhtoan=?,makhachhang=?,manhanvien=?,trangthai=? where mahoadon=?";
     String delete = "delete from hoadon where mahoadon=?";
     String select_by_id = "select * from hoadon where mahoadon=?";
@@ -30,7 +30,7 @@ public class HoaDonDAO implements HairSalonDAO<HoaDon, String>{
             ResultSet rs = JdbcHelper.executeQuery(sql, args);
             while (rs.next()) {                
                 HoaDon model = new HoaDon();
-                model.setMaHoaDon(rs.getString("mahoadon"));
+                model.setMaHoaDon(rs.getInt("mahoadon"));
                 model.setNgayLapHoaDon(rs.getDate("ngaylaphoadon"));
                 model.setNgayThanhToan(rs.getDate("ngaythanhtoan"));
                 model.setMaKhachHang(rs.getString("makhachhang"));
@@ -46,21 +46,21 @@ public class HoaDonDAO implements HairSalonDAO<HoaDon, String>{
         return list ;
     }
     
-    
     public ArrayList<Date> selectYears(){
         String sql = "select  distinct ngaythanhtoan from hoadon order by ngaythanhtoan desc ";
         ArrayList<Date> list = new ArrayList<>();
         try {
             ResultSet rs = JdbcHelper.executeQuery(sql);
             while(rs.next()){
-                Date nam = rs.getDate(1);
-                list.add(nam);
+                Date ngay = rs.getDate(1);
+                list.add(ngay);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list ;
     }
+    
     
     
     public ArrayList<HoaDon> selectByKeyword(String keyword){
@@ -70,7 +70,7 @@ public class HoaDonDAO implements HairSalonDAO<HoaDon, String>{
     @Override
     public void insert(HoaDon model) {
         try {
-            JdbcHelper.executeUpdate(insert, model.getMaHoaDon(),model.getNgayLapHoaDon(),model.getNgayThanhToan(),
+            JdbcHelper.executeUpdate(insert,model.getNgayLapHoaDon(),model.getNgayThanhToan(),
                     model.getMaKhachHang(),model.getMaNhanVien(),model.getTrangThai());
         } catch (SQLException ex) {
             Logger.getLogger(HoaDonDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,7 +88,7 @@ public class HoaDonDAO implements HairSalonDAO<HoaDon, String>{
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Integer id) {
         try {
             JdbcHelper.executeUpdate(delete, id);
         } catch (SQLException ex) {
@@ -97,7 +97,7 @@ public class HoaDonDAO implements HairSalonDAO<HoaDon, String>{
     }
 
     @Override
-    public HoaDon selectByID(String id) {
+    public HoaDon selectByID(Integer id) {
         ArrayList<HoaDon> list = new ArrayList<>();
         list= selectBySQL(select_by_id, id);
         return list.isEmpty() ? null : list.get(0);

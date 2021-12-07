@@ -140,9 +140,9 @@ public class ThongKePanel extends javax.swing.JPanel {
         ArrayList<Object[]> list = dao.getThongKeDoanhThu(nam);
         DefaultCategoryDataset barChartData = new DefaultCategoryDataset();
         for (Object[] row : list) {
-            String hoaDon = (String) row[0];
+            int hoaDon = (int) row[0];
             String doanhThu = String.format("%.0f", row[1]);
-            barChartData.setValue(Double.parseDouble(doanhThu),"Số hóa đơn",hoaDon);
+            barChartData.setValue(Double.parseDouble(doanhThu),"Số hóa đơn",String.valueOf(hoaDon));
             JFreeChart barChart = ChartFactory.createBarChart3D("Thống kê doanh thu", 
                     "Mã hóa đơn", "Tiền", 
                 barChartData,PlotOrientation.VERTICAL,false,true,false);
@@ -160,9 +160,9 @@ public class ThongKePanel extends javax.swing.JPanel {
         ArrayList<Object[]> list = dao.getThongKeGiamGia(nam);
         DefaultCategoryDataset barChartData = new DefaultCategoryDataset();
         for (Object[] row : list) {
-            String hoaDon = (String) row[0];
+            int hoaDon = (int) row[0];
             String doanhThu = String.format("%.0f", row[1]);
-            barChartData.setValue(Double.parseDouble(doanhThu),"Số hóa đơn",hoaDon);
+            barChartData.setValue(Double.parseDouble(doanhThu),"Số hóa đơn",String.valueOf(hoaDon));
             JFreeChart barChart = ChartFactory.createBarChart3D("Thống kê giảm giá", 
                     "Mã hóa đơn", "Tiền", 
                 barChartData,PlotOrientation.VERTICAL,false,true,false);
@@ -181,9 +181,9 @@ public class ThongKePanel extends javax.swing.JPanel {
         ArrayList<Object[]> list = dao.getThongKeTongTien(nam);
         DefaultCategoryDataset barChartData = new DefaultCategoryDataset();
         for (Object[] row : list) {
-            String hoaDon = (String) row[0];
+            int hoaDon = (int) row[0];
             String doanhThu = String.format("%.0f", row[1]);
-            barChartData.setValue(Double.parseDouble(doanhThu),"Số hóa đơn",hoaDon);
+            barChartData.setValue(Double.parseDouble(doanhThu),"Số hóa đơn",String.valueOf(hoaDon));
             JFreeChart barChart = ChartFactory.createBarChart3D("Thống kê tổng tiền", 
                     "Mã hóa đơn", "Tiền", 
                 barChartData,PlotOrientation.VERTICAL,false,true,false);
