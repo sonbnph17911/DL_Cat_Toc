@@ -15,21 +15,26 @@ public class LichDat {
     private int maLichDat ;
     private Date ngayBatDau ;
     private Date ngayKeyThuc ;
+    private String gioDatLich ;
     private String ghiChu ;
     private String maKhachHang ;
     private String maNhanVien ;
-
+    private String trangthai ;
     public LichDat() {
     }
 
-    public LichDat(int maLichDat, Date ngayBatDau, Date ngayKeyThuc, String ghiChu, String maKhachHang, String maNhanVien) {
+    public LichDat(int maLichDat, Date ngayBatDau, Date ngayKeyThuc, String gioDatLich, String ghiChu, String maKhachHang, String maNhanVien, String trangthai) {
         this.maLichDat = maLichDat;
         this.ngayBatDau = ngayBatDau;
         this.ngayKeyThuc = ngayKeyThuc;
+        this.gioDatLich = gioDatLich;
         this.ghiChu = ghiChu;
         this.maKhachHang = maKhachHang;
         this.maNhanVien = maNhanVien;
+        this.trangthai = trangthai;
     }
+
+   
 
     public int getMaLichDat() {
         return maLichDat;
@@ -78,8 +83,20 @@ public class LichDat {
     public void setMaNhanVien(String maNhanVien) {
         this.maNhanVien = maNhanVien;
     }
-    
-    
-    
-    
+
+    public String getGioDatLich() {
+        return gioDatLich;
+    }
+
+    public void setGioDatLich(String gioDatLich) {
+        this.gioDatLich = gioDatLich;
+    }
+
+    public String getTrangthai() {
+        return trangthai;
+    }
+
+    public void setTrangthai(String trangthai) {
+        this.trangthai = trangthai;
+    }
 }

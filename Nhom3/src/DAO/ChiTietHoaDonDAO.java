@@ -34,7 +34,7 @@ public class ChiTietHoaDonDAO implements HairSalonDAO<ChiTietHoaDon, Integer>{
                 model.setGiamGia(rs.getFloat("giamgia"));
                 model.setTongTien(rs.getFloat("tongtien"));
                 model.setThanhTien(rs.getFloat("thanhtien"));
-                model.setMaHoaDon(rs.getString("mahoadon"));
+                model.setMaHoaDon(rs.getInt("mahoadon"));
                 model.setMaDichVu(rs.getString("madichvu"));
                 list.add(model);
             }
