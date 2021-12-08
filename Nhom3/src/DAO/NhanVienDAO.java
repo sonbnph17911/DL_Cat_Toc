@@ -22,7 +22,7 @@ public class NhanVienDAO implements HairSalonDAO<NhanVien, String>{
     String update ="update nhanvien set matkhau=?,vaitro=?,hoten=?,"
             + " ngaysinh=?,ngaynhanviec=?,diachi=?,sodienthoai=?,ghichu=? where manhanvien=?";
     String delete = "delete from nhanvien where manhanvien=?";
-    String select_by_id = "select * from nhanvien where manhanvien=?";
+    String select_by_id = "select * from nhanvien where manhanvien=? and tinhtrang = 1";
     String select_all = "select * from nhanvien ";
     
     private ArrayList<NhanVien> selectBySQL(String sql , Object...args){

@@ -979,11 +979,16 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
                 (float)tblChiTietHoaDon.getValueAt(viTri,5),
                 (int)tblChiTietHoaDon.getValueAt(viTri,1),
                 (String)tblChiTietHoaDon.getValueAt(viTri,2));
+        HoaDon hd = new HoaDon();
+        hd.setMaHoaDon((int) tblDanhSachHoaDon.getValueAt(tblDanhSachHoaDon.getSelectedRow(),0));
+        hd.setTrangThai(true);
         try {
+            hddao.updateTrangThaiHoaDon(hd);
             cthddao.insert(ct);
             list.remove(viTri);
             DialogHelper.alert(this, "Thanh toán thành công!");
             fillTableChiTietHoaDonAo();
+            fillTableHoaDon();
         } catch (Exception e) {
             e.printStackTrace();
         }

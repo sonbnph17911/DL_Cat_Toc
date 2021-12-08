@@ -44,7 +44,7 @@ public class LichDatDAO implements HairSalonDAO<LichDat,Integer>{
         return list ;
     }
     public ArrayList<LichDat> selectByKeyWord(String keyword){
-        String sql = "Select * from lichdat where makhachhang LIKE ?";
+        String sql = "Select * from lichdat where makhachhang LIKE ? order by ngaybatdau desc";
         return selectBySQL(sql, "%"+keyword+"%");
     }
     

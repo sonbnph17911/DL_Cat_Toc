@@ -465,8 +465,13 @@ public class DatLich extends javax.swing.JPanel {
         if (txtMaKhachHang.getText().equals("")) {
             return null;
         }
+        
+        if (DateHelper.now().after(dcNgayKetThuc.getDate())) {
+            DialogHelper.alert(this, "Không được lấy ngày trong quá khứ");
+            return null ;
+        }
         dl.setGioDatLich(txtGioDatLich.getText());
-        dl.setNgayBatDau(dcNgayBatDau.getDate());
+        dl.setNgayBatDau(DateHelper.now());
         dl.setNgayKeyThuc(dcNgayKetThuc.getDate());
         dl.setGhiChu(txtGhiChu.getText());
         dl.setMaKhachHang(txtMaKhachHang.getText());

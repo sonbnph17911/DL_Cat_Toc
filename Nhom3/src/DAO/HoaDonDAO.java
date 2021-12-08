@@ -61,7 +61,10 @@ public class HoaDonDAO implements HairSalonDAO<HoaDon, Integer>{
         return list ;
     }
     
-    
+    public void updateTrangThaiHoaDon (HoaDon model) throws SQLException{
+        String sql = "update hoadon set trangthai=? where mahoadon=?";
+        JdbcHelper.executeUpdate(sql, model.getTrangThai(),model.getMaHoaDon());
+    }
     
     public ArrayList<HoaDon> selectByKeyword(String keyword){
         String sql = "select * from hoadon where makhachhang LIKE ?";
