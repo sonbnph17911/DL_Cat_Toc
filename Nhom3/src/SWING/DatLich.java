@@ -107,6 +107,7 @@ public class DatLich extends javax.swing.JPanel {
         setForeground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tblLichDat.setModel(new javax.swing.table.DefaultTableModel(
@@ -192,6 +193,7 @@ public class DatLich extends javax.swing.JPanel {
         jLabel4.setText("Email :");
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 30, -1, -1));
 
+        rdoNam.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(rdoNam);
         rdoNam.setText("Nam");
         add(rdoNam, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 100, -1, -1));
@@ -200,6 +202,7 @@ public class DatLich extends javax.swing.JPanel {
         jLabel5.setText("Giới tính :");
         add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 100, -1, -1));
 
+        rdoNu.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(rdoNu);
         rdoNu.setText("Nữ");
         add(rdoNu, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 100, -1, -1));
@@ -235,7 +238,11 @@ public class DatLich extends javax.swing.JPanel {
         jScrollPane2.setViewportView(txtGhiChu);
 
         add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 130, 210, 110));
+
+        dcNgayBatDau.setBackground(new java.awt.Color(255, 255, 255));
         add(dcNgayBatDau, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 30, 140, 40));
+
+        dcNgayKetThuc.setBackground(new java.awt.Color(255, 255, 255));
         add(dcNgayKetThuc, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 80, 140, 40));
 
         tblKhachHang.setModel(new javax.swing.table.DefaultTableModel(
@@ -277,8 +284,10 @@ public class DatLich extends javax.swing.JPanel {
         jLabel11.setText("Tìm kiếm khách hàng theo số điện thoại :");
         add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 280, -1, -1));
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new java.awt.GridLayout(2, 2));
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Add.png"))); // NOI18N
         jButton1.setText("ĐẶT LỊCH");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -287,6 +296,7 @@ public class DatLich extends javax.swing.JPanel {
         });
         jPanel1.add(jButton1);
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Notes.png"))); // NOI18N
         jButton2.setText("SỬA LỊCH");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -295,6 +305,7 @@ public class DatLich extends javax.swing.JPanel {
         });
         jPanel1.add(jButton2);
 
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Delete.png"))); // NOI18N
         jButton3.setText("HỦY LỊCH");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -303,6 +314,7 @@ public class DatLich extends javax.swing.JPanel {
         });
         jPanel1.add(jButton3);
 
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Refresh.png"))); // NOI18N
         jButton4.setText("TẠO MỚI");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -326,6 +338,7 @@ public class DatLich extends javax.swing.JPanel {
         jLabel12.setText("Giờ Đặt");
         add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 210, 50, -1));
 
+        btnTaoHoaDon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Create.png"))); // NOI18N
         btnTaoHoaDon.setText("TẠO HÓA ĐƠN");
         btnTaoHoaDon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

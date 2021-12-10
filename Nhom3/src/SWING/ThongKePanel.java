@@ -5,13 +5,16 @@
  */
 package SWING;
 
+import DAO.ChiTietHoaDonDAO;
 import DAO.HoaDonDAO;
 import DAO.LichDatDAO;
 import DAO.ThongKeDAO;
+import MODEL.ChiTietHoaDon;
 import MODEL.HoaDon;
 import MODEL.LichDat;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
@@ -52,6 +55,13 @@ public class ThongKePanel extends javax.swing.JPanel {
         pnlTongTien = new javax.swing.JPanel();
         cbbNam = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
+        lblDoanhThu = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        lblTongTien = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lblGiamGia = new javax.swing.JLabel();
+
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlThongKe.setLayout(new java.awt.BorderLayout());
         jTabbedPane1.addTab("Thống kê doanh thu", pnlThongKe);
@@ -62,41 +72,43 @@ public class ThongKePanel extends javax.swing.JPanel {
         pnlTongTien.setLayout(new java.awt.BorderLayout());
         jTabbedPane1.addTab("Thống kê tổng tiền", pnlTongTien);
 
+        add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 79, 1340, 491));
+
         cbbNam.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbbNam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbNamActionPerformed(evt);
             }
         });
+        add(cbbNam, new org.netbeans.lib.awtextra.AbsoluteConstraints(119, 21, 363, -1));
 
         jLabel1.setText("Ngày thanh toán :");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(13, 24, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(cbbNam, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(858, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1340, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbbNam, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addContainerGap(539, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 39, Short.MAX_VALUE)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
+        lblDoanhThu.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblDoanhThu.setForeground(new java.awt.Color(255, 0, 0));
+        lblDoanhThu.setText("Tổng doanh thu :");
+        add(lblDoanhThu, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 60, 330, 34));
+
+        jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
+        jSeparator1.setAlignmentX(1.0F);
+        jSeparator1.setAlignmentY(1.0F);
+        add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 52, 460, 10));
+
+        lblTongTien.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblTongTien.setForeground(new java.awt.Color(255, 0, 0));
+        lblTongTien.setText("TỔNG TIỀN :");
+        add(lblTongTien, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jLabel3.setText("-");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 20, 30, 20));
+
+        lblGiamGia.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblGiamGia.setForeground(new java.awt.Color(255, 0, 0));
+        lblGiamGia.setText("Giảm giá :");
+        add(lblGiamGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbbNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbNamActionPerformed
@@ -106,6 +118,7 @@ public class ThongKePanel extends javax.swing.JPanel {
             fillThongKeDoanhThu();
             fillThongKeGiamGia();
             fillThongKeTongTien();
+            fillTongDoanhThu();
         }
     }//GEN-LAST:event_cbbNamActionPerformed
 
@@ -113,7 +126,12 @@ public class ThongKePanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbbNam;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblDoanhThu;
+    private javax.swing.JLabel lblGiamGia;
+    private javax.swing.JLabel lblTongTien;
     private javax.swing.JPanel pnlThongKe;
     private javax.swing.JPanel pnlTienGiam;
     private javax.swing.JPanel pnlTongTien;
@@ -134,7 +152,22 @@ public class ThongKePanel extends javax.swing.JPanel {
             model.addElement(nam);
         }
     }
-    
+    void fillTongDoanhThu(){
+        DecimalFormat dcf = new DecimalFormat("###,###,###");
+        Date nam = (Date) cbbNam.getSelectedItem();
+        ArrayList<ChiTietHoaDon> list = new ChiTietHoaDonDAO().tongDoanhThu(nam);
+        int doanhthu = 0 ;
+        int giamgia = 0 ;
+        int tongtien = 0 ;
+        for (int i = 0; i < list.size(); i++) {
+            doanhthu += Integer.parseInt(String.format("%.0f", list.get(i).getThanhTien()));
+            giamgia += Integer.parseInt(String.format("%.0f", list.get(i).getGiamGia()));
+            tongtien += Integer.parseInt(String.format("%.0f", list.get(i).getTongTien()));
+            lblDoanhThu.setText("Tổng doanh thu :"+dcf.format(doanhthu)+"VND");
+            lblGiamGia.setText("Giảm giá :"+dcf.format(giamgia)+"VND");
+            lblTongTien.setText("Tổng tiền :"+dcf.format(tongtien)+"VND");
+        }
+    }
     void fillThongKeDoanhThu(){
         Date nam = (Date) cbbNam.getSelectedItem();
         ArrayList<Object[]> list = dao.getThongKeDoanhThu(nam);
@@ -163,7 +196,7 @@ public class ThongKePanel extends javax.swing.JPanel {
             int hoaDon = (int) row[0];
             String doanhThu = String.format("%.0f", row[1]);
             barChartData.setValue(Double.parseDouble(doanhThu),"Số hóa đơn",String.valueOf(hoaDon));
-            JFreeChart barChart = ChartFactory.createBarChart3D("Thống kê giảm giá", 
+            JFreeChart barChart = ChartFactory.createAreaChart("Thống kê giảm giá", 
                     "Mã hóa đơn", "Tiền", 
                 barChartData,PlotOrientation.VERTICAL,false,true,false);
         CategoryPlot barchrt = barChart.getCategoryPlot();
@@ -184,7 +217,7 @@ public class ThongKePanel extends javax.swing.JPanel {
             int hoaDon = (int) row[0];
             String doanhThu = String.format("%.0f", row[1]);
             barChartData.setValue(Double.parseDouble(doanhThu),"Số hóa đơn",String.valueOf(hoaDon));
-            JFreeChart barChart = ChartFactory.createBarChart3D("Thống kê tổng tiền", 
+            JFreeChart barChart = ChartFactory.createWaterfallChart("Thống kê tổng tiền", 
                     "Mã hóa đơn", "Tiền", 
                 barChartData,PlotOrientation.VERTICAL,false,true,false);
         CategoryPlot barchrt = barChart.getCategoryPlot();

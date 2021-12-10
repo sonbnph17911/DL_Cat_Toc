@@ -183,6 +183,7 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
 
         jPanel1.setLayout(new java.awt.GridLayout(0, 1));
 
+        btnTaoMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Refresh.png"))); // NOI18N
         btnTaoMoi.setText("TẠO MỚI");
         btnTaoMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,6 +192,7 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
         });
         jPanel1.add(btnTaoMoi);
 
+        btnTaoHoaDon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Create.png"))); // NOI18N
         btnTaoHoaDon.setText("TẠO HÓA ĐƠN VÀ THANH TOÁN");
         btnTaoHoaDon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,6 +201,7 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
         });
         jPanel1.add(btnTaoHoaDon);
 
+        btnXemChiTietHoaDon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/File-new-icon.png"))); // NOI18N
         btnXemChiTietHoaDon.setText("Xem chi tiết hóa đơn");
         btnXemChiTietHoaDon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -328,7 +331,7 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(70, 70, 70)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
@@ -340,7 +343,7 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE))
         );
 
-        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 142, 310, 190));
+        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 142, 290, 190));
 
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -555,13 +558,14 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
         add(rdoChuaThanhToan, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, -1, -1));
 
         btnLuuThanhToan.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        btnLuuThanhToan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Database.png"))); // NOI18N
         btnLuuThanhToan.setText("LƯU \nTHANH TOÁN");
         btnLuuThanhToan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLuuThanhToanActionPerformed(evt);
             }
         });
-        add(btnLuuThanhToan, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 270, 130, 60));
+        add(btnLuuThanhToan, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 280, -1, 50));
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
@@ -810,7 +814,7 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
             Object[] data = {hoaDon.getMaHoaDon(),DateHelper.toString(hoaDon.getNgayLapHoaDon(), "yyyy-MM-dd "),
             DateHelper.toString(hoaDon.getNgayThanhToan(), "yyyy-MM-dd"),
             hoaDon.getMaKhachHang(),hoaDon.getMaNhanVien(),hoaDon.getTrangThai()==true? "Đã thanh toán":"Chưa thanh toán"};
-            dtm.addRow(data);
+            dtm.addRow(data); 
         }
     }
     void status(boolean trangThai){
@@ -973,14 +977,14 @@ public class QuanLyHoaDonPanel extends javax.swing.JPanel {
         if (viTri == -1) {
             return ;
         }
-        ChiTietHoaDon ct = new ChiTietHoaDon((int)tblChiTietHoaDon.getValueAt(viTri,0),
-                                                        (float)tblChiTietHoaDon.getValueAt(viTri,3),
-                (float)tblChiTietHoaDon.getValueAt(viTri,4),
-                (float)tblChiTietHoaDon.getValueAt(viTri,5),
-                (int)tblChiTietHoaDon.getValueAt(viTri,1),
-                (String)tblChiTietHoaDon.getValueAt(viTri,2));
+        ChiTietHoaDon ct = new ChiTietHoaDon();
+        ct.setGiamGia((float) tblChiTietHoaDon.getValueAt(viTri, 3));
+        ct.setTongTien((float) tblChiTietHoaDon.getValueAt(viTri, 4));
+        ct.setThanhTien((float) tblChiTietHoaDon.getValueAt(viTri, 5));
+        ct.setMaHoaDon((int) tblChiTietHoaDon.getValueAt(viTri,1));
+        ct.setMaDichVu((String) tblChiTietHoaDon.getValueAt(viTri, 2));
         HoaDon hd = new HoaDon();
-        hd.setMaHoaDon((int) tblDanhSachHoaDon.getValueAt(tblDanhSachHoaDon.getSelectedRow(),0));
+        hd.setMaHoaDon((int) tblChiTietHoaDon.getValueAt(tblChiTietHoaDon.getSelectedRow(),1));
         hd.setTrangThai(true);
         try {
             hddao.updateTrangThaiHoaDon(hd);

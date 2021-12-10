@@ -47,7 +47,7 @@ public class HoaDonDAO implements HairSalonDAO<HoaDon, Integer>{
     }
     
     public ArrayList<Date> selectYears(){
-        String sql = "select  distinct ngaythanhtoan from hoadon order by ngaythanhtoan desc ";
+        String sql = "select  distinct ngaythanhtoan from hoadon order by ngaythanhtoan asc ";
         ArrayList<Date> list = new ArrayList<>();
         try {
             ResultSet rs = JdbcHelper.executeQuery(sql);
