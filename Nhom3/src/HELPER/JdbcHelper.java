@@ -58,9 +58,13 @@ public class JdbcHelper {
         }
     }
     
-    public static ResultSet executeQuery(String sql ,Object... args) throws SQLException{
-        PreparedStatement pts = JdbcHelper.prepareStatement(sql, args);
+    public static ResultSet executeQuery(String sql ,Object... args){
+        try {
+            PreparedStatement pts = JdbcHelper.prepareStatement(sql, args);
         return pts.executeQuery();
+        } catch (Exception e) {
+        }
+        return null ;
     }
     
     

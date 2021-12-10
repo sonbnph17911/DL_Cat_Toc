@@ -21,10 +21,12 @@ public class LichDat {
     private String maKhachHang ;
     private String maNhanVien ;
     private String gioDat;
+    private String trangThai ;
+    private boolean trangThaiHuyLich ;
     public LichDat() {
     }
 
-    public LichDat(int maLichDat, Date ngayBatDau, Date ngayKeyThuc, String ghiChu, String maKhachHang, String maNhanVien, String gioDat) {
+    public LichDat(int maLichDat, Date ngayBatDau, Date ngayKeyThuc, String ghiChu, String maKhachHang, String maNhanVien, String gioDat, String trangThai, boolean trangThaiHuyLich) {
         this.maLichDat = maLichDat;
         this.ngayBatDau = ngayBatDau;
         this.ngayKeyThuc = ngayKeyThuc;
@@ -32,7 +34,13 @@ public class LichDat {
         this.maKhachHang = maKhachHang;
         this.maNhanVien = maNhanVien;
         this.gioDat = gioDat;
+        this.trangThai = trangThai;
+        this.trangThaiHuyLich = trangThaiHuyLich;
     }
+
+    
+
+    
 
     
 
@@ -90,6 +98,22 @@ public class LichDat {
 
     public void setMaNhanVien(String maNhanVien) {
         this.maNhanVien = maNhanVien;
+    }
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    public boolean getTrangThaiHuyLich() {
+        return trangThaiHuyLich;
+    }
+
+    public void setTrangThaiHuyLich(boolean trangThaiHuyLich) {
+        this.trangThaiHuyLich = trangThaiHuyLich;
     }
     
    
