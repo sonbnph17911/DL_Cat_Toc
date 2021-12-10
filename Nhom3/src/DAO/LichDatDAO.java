@@ -20,8 +20,8 @@ import java.util.logging.Logger;
  * @author DuongNVPH
  */
 public class LichDatDAO implements HairSalonDAO<LichDat,Integer>{
-    String insert = "insert into lichdat(ngaybatdau,ngayketthuc,ghichu,makhachhang,manhanvien,gioDat) values(?,?,?,?,?,?)";
-    String update = "update lichdat set ngaybatdau=?,ngayketthuc=?,ghichu=?,makhachhang=?,manhanvien=? where malichdat=?";
+    String insert = "insert into lichdat(ngaybatdau,ngayketthuc,ghichu,makhachhang,manhanvien,gioDat,trangthai,trangthaihuylich) values(?,?,?,?,?,?,?,?)";
+    String update = "update lichdat set ngaybatdau=?,ngayketthuc=?,ghichu=?,makhachhang=?,manhanvien=?,trangthai=?,trangthaihuylich=? where malichdat=?";
     String delete = "delete from lichdat where malichdat=?";
     String select_by_id = "select * from lichdat where malichdat=?";
     String select_all = "select * from lichdat";
@@ -36,15 +36,21 @@ public class LichDatDAO implements HairSalonDAO<LichDat,Integer>{
                 list.add(nam);
             }
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return list ;
     }
-    public ArrayList<LichDat> selectByKeyWord(String keyword){
-        String sql = "Select * from lichdat where makhachhang LIKE ?";
-        return selectBySQL(sql, "%"+keyword+"%");
+    public void huyLich(boolean trangThaiHuyLich ,Integer madl) throws SQLException{
+        String sql = "Update lichdat set trangthaihuylich=? where malichdat=?";
+        JdbcHelper.executeUpdate(sql, trangThaiHuyLich,madl);
     }
-    
+    public ArrayList<LichDat> selectByKeyWord(String keyword , boolean trangThaiHuyLich){
+        String sql = "Select * from lichdat where makhachhang LIKE ? and trangthaihuylich = ? order by ngaybatdau desc ";
+        return selectBySQL(sql, "%"+keyword+"%",trangThaiHuyLich);
+    }
+    public ArrayList<LichDat> updateStatus(String trangthai,Integer malichdat){
+        String sql = "update lichdat set trangthai=? where malichdat=?";
+        return selectBySQL(sql, trangthai,malichdat);
+    }
     
     private ArrayList<LichDat> selectBySQL(String sql , Object...args){
         ArrayList<LichDat> list = new ArrayList<>();
@@ -59,12 +65,12 @@ public class LichDatDAO implements HairSalonDAO<LichDat,Integer>{
                 model.setMaKhachHang(rs.getString("makhachhang"));
                 model.setMaNhanVien(rs.getString("manhanvien"));
                 model.setGioDat(rs.getString("gioDat"));
+                model.setTrangThai(rs.getString("trangthai"));
+                model.setTrangThaiHuyLich(rs.getBoolean("trangthaihuylich"));
                 list.add(model);
             }
             rs.getStatement().getConnection().close();
-        } catch (Exception e) {
-            e.printStackTrace();
-     
+        } catch (Exception e) { 
         }
         return list ;
     }
@@ -73,7 +79,7 @@ public class LichDatDAO implements HairSalonDAO<LichDat,Integer>{
     public void insert(LichDat model) {
         try {
             JdbcHelper.executeUpdate(insert, model.getNgayBatDau(),model.getNgayKeyThuc()
-                    ,model.getGhiChu(),model.getMaKhachHang(),model.getMaNhanVien(),model.getGioDat());
+                    ,model.getGhiChu(),model.getMaKhachHang(),model.getMaNhanVien(),model.getGioDat(),model.getTrangThai(),model.getTrangThaiHuyLich());
         } catch (SQLException ex) {
             Logger.getLogger(LichDatDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -83,7 +89,7 @@ public class LichDatDAO implements HairSalonDAO<LichDat,Integer>{
     public void update(LichDat model) {
         try {
             JdbcHelper.executeUpdate(update, model.getNgayBatDau(),model.getNgayKeyThuc()
-                    ,model.getGhiChu(),model.getMaKhachHang(),model.getMaNhanVien(),model.getMaLichDat(),model.getGioDat());
+                    ,model.getGhiChu(),model.getMaKhachHang(),model.getMaNhanVien(),model.getGioDat(),model.getTrangThaiHuyLich(),model.getMaLichDat());
         } catch (SQLException ex) {
             Logger.getLogger(LichDatDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
