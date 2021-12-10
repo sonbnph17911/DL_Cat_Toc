@@ -40,6 +40,7 @@ public class ManHinhChaoJDialog extends javax.swing.JDialog implements Runnable{
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("HairSalon");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -48,8 +49,9 @@ public class ManHinhChaoJDialog extends javax.swing.JDialog implements Runnable{
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, 249));
         jPanel1.add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 354, 840, 20));
 
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel2.setText("                                                         ");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 320, 280, 20));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 300, 510, 50));
 
         jLabel3.setBackground(new java.awt.Color(102, 102, 255));
         jLabel3.setFont(new java.awt.Font("Wide Latin", 0, 72)); // NOI18N

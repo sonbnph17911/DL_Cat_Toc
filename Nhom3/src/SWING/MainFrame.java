@@ -10,12 +10,14 @@ import HELPER.DateHelper;
 import HELPER.DialogHelper;
 import HELPER.ShareHelper;
 import MODEL.DichVu;
+import java.awt.Button;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -28,10 +30,15 @@ public class MainFrame extends javax.swing.JFrame implements Runnable {
      * Creates new form MainFrame
     */
     public MainFrame() {
-        initComponents();
+        initComponents();        
         init();
     }
-
+    public void setColor(JButton bt){
+        bt.setBackground(new Color(0, 204, 204));
+    }
+    public void resetColor(JButton bt){
+        bt.setBackground(new Color(0, 153, 153));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -68,6 +75,7 @@ public class MainFrame extends javax.swing.JFrame implements Runnable {
         mnuTroGiup_mniGioiThieuSanPham = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("HairSalon");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -81,78 +89,156 @@ public class MainFrame extends javax.swing.JFrame implements Runnable {
         lblDongHo.setForeground(new java.awt.Color(255, 0, 0));
         jPanel1.add(lblDongHo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 640, 100, 30));
 
-        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnHoaDon.setBackground(new java.awt.Color(0, 153, 153));
+        btnHoaDon.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnHoaDon.setForeground(new java.awt.Color(51, 51, 51));
+        btnHoaDon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/hoadon.png"))); // NOI18N
         btnHoaDon.setText("QUẢN LÝ HÓA ĐƠN");
-        btnHoaDon.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnHoaDon.setBorder(null);
+        btnHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnHoaDonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnHoaDonMouseExited(evt);
+            }
+        });
         btnHoaDon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHoaDonActionPerformed(evt);
             }
         });
-        jPanel3.add(btnHoaDon);
+        jPanel3.add(btnHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(-9, -10, 210, 80));
 
         btnDatLich.setBackground(new java.awt.Color(0, 153, 153));
+        btnDatLich.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnDatLich.setForeground(new java.awt.Color(51, 51, 51));
+        btnDatLich.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/lichdat.png"))); // NOI18N
         btnDatLich.setText("QUẢN LÝ ĐẶT LỊCH");
-        btnDatLich.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnDatLich.setBorder(null);
+        btnDatLich.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDatLichMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDatLichMouseExited(evt);
+            }
+        });
         btnDatLich.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDatLichActionPerformed(evt);
             }
         });
-        jPanel3.add(btnDatLich);
+        jPanel3.add(btnDatLich, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, -10, 200, 80));
 
         btnKhachHang.setBackground(new java.awt.Color(0, 153, 153));
+        btnKhachHang.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnKhachHang.setForeground(new java.awt.Color(51, 51, 51));
+        btnKhachHang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/khachhang.png"))); // NOI18N
         btnKhachHang.setText("QUẢN LÝ KHÁCH HÀNG");
-        btnKhachHang.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnKhachHang.setBorder(null);
+        btnKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnKhachHangMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnKhachHangMouseExited(evt);
+            }
+        });
         btnKhachHang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnKhachHangActionPerformed(evt);
             }
         });
-        jPanel3.add(btnKhachHang);
+        jPanel3.add(btnKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(383, -10, 200, 80));
 
         btnNhanVien.setBackground(new java.awt.Color(0, 153, 153));
+        btnNhanVien.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnNhanVien.setForeground(new java.awt.Color(51, 51, 51));
+        btnNhanVien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/nhanvien.png"))); // NOI18N
         btnNhanVien.setText("QUẢN LÝ NHÂN VIÊN");
-        btnNhanVien.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnNhanVien.setBorder(null);
+        btnNhanVien.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnNhanVienMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnNhanVienMouseExited(evt);
+            }
+        });
         btnNhanVien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNhanVienActionPerformed(evt);
             }
         });
-        jPanel3.add(btnNhanVien);
+        jPanel3.add(btnNhanVien, new org.netbeans.lib.awtextra.AbsoluteConstraints(574, -10, 210, 80));
 
         btnDichVu.setBackground(new java.awt.Color(0, 153, 153));
+        btnDichVu.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnDichVu.setForeground(new java.awt.Color(51, 51, 51));
+        btnDichVu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/dichvu.png"))); // NOI18N
         btnDichVu.setText("DỊCH VỤ");
-        btnDichVu.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnDichVu.setBorder(null);
+        btnDichVu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDichVuMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDichVuMouseExited(evt);
+            }
+        });
         btnDichVu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDichVuActionPerformed(evt);
             }
         });
-        jPanel3.add(btnDichVu);
+        jPanel3.add(btnDichVu, new org.netbeans.lib.awtextra.AbsoluteConstraints(765, -10, 210, 80));
 
         btnThongKe.setBackground(new java.awt.Color(0, 153, 153));
+        btnThongKe.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnThongKe.setForeground(new java.awt.Color(51, 51, 51));
+        btnThongKe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/thongke.png"))); // NOI18N
         btnThongKe.setText("THỐNG KÊ");
-        btnThongKe.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnThongKe.setBorder(null);
+        btnThongKe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnThongKeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnThongKeMouseExited(evt);
+            }
+        });
         btnThongKe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThongKeActionPerformed(evt);
             }
         });
-        jPanel3.add(btnThongKe);
+        jPanel3.add(btnThongKe, new org.netbeans.lib.awtextra.AbsoluteConstraints(956, -10, 210, 80));
 
         btnThoat.setBackground(new java.awt.Color(0, 153, 153));
+        btnThoat.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnThoat.setForeground(new java.awt.Color(51, 51, 51));
+        btnThoat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/thongke.png"))); // NOI18N
         btnThoat.setText("THOÁT");
-        btnThoat.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnThoat.setBorder(null);
+        btnThoat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnThoatMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnThoatMouseExited(evt);
+            }
+        });
         btnThoat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThoatActionPerformed(evt);
                 mnuKetThucChuongTrinhActionPerformed(evt);
             }
         });
-        jPanel3.add(btnThoat);
+        jPanel3.add(btnThoat, new org.netbeans.lib.awtextra.AbsoluteConstraints(1147, -10, 200, 80));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1340, 70));
 
@@ -361,6 +447,76 @@ public class MainFrame extends javax.swing.JFrame implements Runnable {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void btnHoaDonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHoaDonMouseEntered
+        // TODO add your handling code here:
+        setColor(btnHoaDon);
+    }//GEN-LAST:event_btnHoaDonMouseEntered
+
+    private void btnHoaDonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHoaDonMouseExited
+        // TODO add your handling code here:
+        resetColor(btnHoaDon);
+    }//GEN-LAST:event_btnHoaDonMouseExited
+
+    private void btnDatLichMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDatLichMouseEntered
+        // TODO add your handling code here:
+        setColor(btnDatLich);
+    }//GEN-LAST:event_btnDatLichMouseEntered
+
+    private void btnDatLichMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDatLichMouseExited
+        // TODO add your handling code here:
+        resetColor(btnDatLich);
+    }//GEN-LAST:event_btnDatLichMouseExited
+
+    private void btnKhachHangMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKhachHangMouseEntered
+        // TODO add your handling code here:
+        setColor(btnKhachHang);
+    }//GEN-LAST:event_btnKhachHangMouseEntered
+
+    private void btnKhachHangMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKhachHangMouseExited
+        // TODO add your handling code here:
+        resetColor(btnKhachHang);
+    }//GEN-LAST:event_btnKhachHangMouseExited
+
+    private void btnNhanVienMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNhanVienMouseEntered
+        // TODO add your handling code here:
+        setColor(btnNhanVien);
+    }//GEN-LAST:event_btnNhanVienMouseEntered
+
+    private void btnNhanVienMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNhanVienMouseExited
+        // TODO add your handling code here:
+        resetColor(btnNhanVien);
+    }//GEN-LAST:event_btnNhanVienMouseExited
+
+    private void btnDichVuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDichVuMouseEntered
+        // TODO add your handling code here:
+        setColor(btnDichVu);
+    }//GEN-LAST:event_btnDichVuMouseEntered
+
+    private void btnDichVuMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDichVuMouseExited
+        // TODO add your handling code here:
+        resetColor(btnDichVu);
+    }//GEN-LAST:event_btnDichVuMouseExited
+
+    private void btnThongKeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThongKeMouseEntered
+        // TODO add your handling code here:
+        setColor(btnThongKe);
+    }//GEN-LAST:event_btnThongKeMouseEntered
+
+    private void btnThongKeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThongKeMouseExited
+        // TODO add your handling code here:
+        resetColor(btnThongKe);
+    }//GEN-LAST:event_btnThongKeMouseExited
+
+    private void btnThoatMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThoatMouseEntered
+        // TODO add your handling code here:
+        setColor(btnThoat);
+    }//GEN-LAST:event_btnThoatMouseEntered
+
+    private void btnThoatMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThoatMouseExited
+        // TODO add your handling code here:
+        resetColor(btnThoat);
+    }//GEN-LAST:event_btnThoatMouseExited
 
     /**
      * @param args the command line arguments

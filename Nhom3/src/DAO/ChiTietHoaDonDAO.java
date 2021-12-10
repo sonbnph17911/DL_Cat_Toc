@@ -11,6 +11,7 @@ import MODEL.HoaDon;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,6 +47,13 @@ public class ChiTietHoaDonDAO implements HairSalonDAO<ChiTietHoaDon, Integer>{
         return list ;
     }
      
+    public ArrayList<ChiTietHoaDon> tongDoanhThu(Date date){
+        String sql = "select machitiethoadon,giamgia,tongtien,thanhtien,hoadonchitiet.mahoadon,madichvu"
+                + " from hoadonchitiet join hoadon on hoadonchitiet.mahoadon=hoadon.mahoadon "
+                + " where hoadon.ngaythanhtoan= ? ";
+        return selectBySQL(sql,date);
+    }
+    
     public ArrayList<ChiTietHoaDon> xemChiTietHoaDon(String mahd){
         String sql = "select * from hoadonchitiet where mahoadon=?" ;
         return selectBySQL(sql,mahd);
