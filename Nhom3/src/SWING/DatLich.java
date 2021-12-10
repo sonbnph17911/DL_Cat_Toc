@@ -5,6 +5,10 @@
  */
 package SWING;
 
+
+
+
+
 import DAO.KhachHangDAO;
 import DAO.LichDatDAO;
 import HELPER.DateHelper;
@@ -134,7 +138,7 @@ public class DatLich extends javax.swing.JPanel {
             tblLichDat.getColumnModel().getColumn(6).setResizable(false);
         }
 
-        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 630, 260));
+        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 630, 260));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel9.setText("Tìm kiếm lịch đặt theo mã khách hàng :");
