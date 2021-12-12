@@ -38,9 +38,6 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtMaKh = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtGhiChu = new javax.swing.JTextArea();
         jLabel11 = new javax.swing.JLabel();
         txtDienThoai = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -62,6 +59,10 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
         btnMoi = new javax.swing.JButton();
+        btnFirst = new javax.swing.JButton();
+        btnPrev = new javax.swing.JButton();
+        btnNext = new javax.swing.JButton();
+        btnLast = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -72,16 +73,6 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
         jLabel3.setText("Mã Khách hàng");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 11, -1, -1));
         jPanel1.add(txtMaKh, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 32, 290, 30));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jLabel7.setText("Ghi Chú");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 430, -1, -1));
-
-        txtGhiChu.setColumns(20);
-        txtGhiChu.setRows(5);
-        jScrollPane1.setViewportView(txtGhiChu);
-
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 460, 300, 90));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel11.setText("Điện Thoại");
@@ -130,6 +121,7 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
         txtTimKiem.setToolTipText("");
         txtTimKiem.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
+        btnTimKiem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Search.png"))); // NOI18N
         btnTimKiem.setText("Tìm");
         btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,7 +145,7 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(btnTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtTimKiem))
                 .addContainerGap())
         );
@@ -185,11 +177,12 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(tblKhachHang);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, 970, 430));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, 970, 280));
 
         jPanel2.setLayout(new java.awt.GridLayout(2, 2));
 
         btnThem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Notes.png"))); // NOI18N
         btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,6 +192,7 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
         jPanel2.add(btnThem);
 
         btnSua.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Refresh.png"))); // NOI18N
         btnSua.setText("Sửa");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,6 +202,7 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
         jPanel2.add(btnSua);
 
         btnXoa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Delete.png"))); // NOI18N
         btnXoa.setText("Xóa");
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -217,6 +212,7 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
         jPanel2.add(btnXoa);
 
         btnMoi.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Edit.png"))); // NOI18N
         btnMoi.setText("Mới");
         btnMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -226,6 +222,38 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
         jPanel2.add(btnMoi);
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 0, 260, 130));
+
+        btnFirst.setText("<<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnFirst, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 10, -1, -1));
+
+        btnPrev.setText("<");
+        btnPrev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrevActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnPrev, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 10, -1, -1));
+
+        btnNext.setText(">");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 10, -1, -1));
+
+        btnLast.setText(">>");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnLast, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 10, -1, -1));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1340, 691));
     }// </editor-fold>//GEN-END:initComponents
@@ -271,9 +299,33 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tblKhachHangMouseClicked
 
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+            // TODO add your handling code here:
+            first();
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
+        // TODO add your handling code here:
+        prev();
+    }//GEN-LAST:event_btnPrevActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        // TODO add your handling code here:
+        last();
+    }//GEN-LAST:event_btnLastActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        // TODO add your handling code here:
+        next();
+    }//GEN-LAST:event_btnNextActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFirst;
+    private javax.swing.JButton btnLast;
     private javax.swing.JButton btnMoi;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnPrev;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTimKiem;
@@ -285,11 +337,9 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JRadioButton rdoNam;
     private javax.swing.JRadioButton rdoNu;
@@ -297,7 +347,6 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtDiachi;
     private javax.swing.JTextField txtDienThoai;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextArea txtGhiChu;
     private javax.swing.JTextField txtHoTen;
     private javax.swing.JTextField txtMaKh;
     private javax.swing.JTextField txtTimKiem;
@@ -359,7 +408,7 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
     void delete() {
 
         String maKhachHang = txtMaKh.getText();
-        if (DialogHelper.confirm(this, "Bạn có thực sự muốn xóa người học này?")) {
+        if (DialogHelper.confirm(this, "Bạn có thực sự muốn xóa khách hàng này?")) {
             try {
                 dao.delete(maKhachHang);
                 this.fillTable();
@@ -419,7 +468,7 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
         txtDiachi.setText(khachHang.getDiaChi());
         txtDienThoai.setText(khachHang.getSoDienThoai());
         txtEmail.setText(khachHang.getEmail());
-        txtGhiChu.setText(khachHang.getGhiChu());
+        
     }
 
     KhachHang getForm() {
@@ -432,10 +481,7 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
             DialogHelper.alert(this, "Không được phép để trống họ tên!");
             txtHoTen.requestFocus();
             return null;
-        } else if (txtDiachi.getText().length() == 0) {
-            DialogHelper.alert(this, "Không được phép để trống địa chỉ!");
-            txtDiachi.requestFocus();
-            return null;
+        
         } else if (txtDienThoai.getText().length() == 0) {
             DialogHelper.alert(this, "Không được để trống số điện thoại!");
             txtDienThoai.requestFocus();
@@ -444,7 +490,11 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
             DialogHelper.alert(this, "Không đúng định dạng số điện thoại!");
             txtDienThoai.requestFocus();
             return null;
-        } else if (txtEmail.getText().length() == 0) {
+        }  else if (txtDiachi.getText().length() == 0) {
+            DialogHelper.alert(this, "Không được phép để trống địa chỉ!");
+            txtDiachi.requestFocus();
+            return null;}
+        else if (txtEmail.getText().length() == 0) {
             DialogHelper.alert(this, "Bạn chưa nhập Email!");
             txtEmail.requestFocus();
             return null;
@@ -460,8 +510,31 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
         khachHang.setDiaChi(txtDiachi.getText());
         khachHang.setSoDienThoai(txtDienThoai.getText());
         khachHang.setEmail(txtEmail.getText());
-        khachHang.setGhiChu(txtGhiChu.getText());
+        
         return khachHang;
+    }
+        void first() {
+        this.row = 0;
+        this.edit();
+    }
+
+    void prev() {
+        if (this.row > 0) {
+            this.row--;
+            this.edit();
+        }
+    }
+
+    void next() {
+        if (this.row < tblKhachHang.getRowCount() - 1) {
+            this.row++;
+            this.edit();
+        }
+    }
+
+    void last() {
+        this.row = tblKhachHang.getRowCount() - 1;
+        this.edit();
     }
 
     void updateStatus() {
@@ -473,7 +546,11 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
         btnThem.setEnabled(!edit);
         btnSua.setEnabled(edit);
         btnXoa.setEnabled(edit);
-;
+        btnFirst.setEnabled(edit && !first);
+        btnPrev.setEnabled(edit && !first);
+        btnNext.setEnabled(edit && !last);
+        btnLast.setEnabled(edit && !last);
+
     }
     
     
@@ -490,6 +567,7 @@ public class QuanLyKhachHangJPanel extends javax.swing.JPanel {
         return kt ;
     }
 
+    
 
 
 }
