@@ -18,6 +18,8 @@ public class KhachHang {
     private String diaChi ;
     private String ghiChu ;
 
+    
+    
     public KhachHang() {
     }
 
