@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  */
 public class LichDatDAO implements HairSalonDAO<LichDat,Integer>{
     String insert = "insert into lichdat(ngaybatdau,ngayketthuc,ghichu,makhachhang,manhanvien,gioDat,trangthai,trangthaihuylich) values(?,?,?,?,?,?,?,?)";
-    String update = "update lichdat set ngaybatdau=?,ngayketthuc=?,ghichu=?,makhachhang=?,manhanvien=?,trangthai=?,trangthaihuylich=? where malichdat=?";
+    String update = "update lichdat set ngaybatdau=?,ngayketthuc=?,ghichu=?,makhachhang=?,manhanvien=?,gioDat=?,trangthai=?,trangthaihuylich=? where malichdat=?";
     String delete = "delete from lichdat where malichdat=?";
     String select_by_id = "select * from lichdat where malichdat=?";
     String select_all = "select * from lichdat";
@@ -89,7 +89,7 @@ public class LichDatDAO implements HairSalonDAO<LichDat,Integer>{
     public void update(LichDat model) {
         try {
             JdbcHelper.executeUpdate(update, model.getNgayBatDau(),model.getNgayKeyThuc()
-                    ,model.getGhiChu(),model.getMaKhachHang(),model.getMaNhanVien(),model.getGioDat(),model.getTrangThaiHuyLich(),model.getMaLichDat());
+                    ,model.getGhiChu(),model.getMaKhachHang(),model.getMaNhanVien(),model.getGioDat(),model.getTrangThai(),model.getTrangThaiHuyLich(),model.getMaLichDat());
         } catch (SQLException ex) {
             Logger.getLogger(LichDatDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

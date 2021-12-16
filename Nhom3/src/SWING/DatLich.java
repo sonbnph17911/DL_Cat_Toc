@@ -613,6 +613,7 @@ public class DatLich extends javax.swing.JPanel {
         dcNgayKetThuc.setDate(DateHelper.toDate(tblLichDat.getValueAt(viTri, 2).toString()));
         txtGhiChu.setText(tblLichDat.getValueAt(viTri, 3).toString());
         txtMaKhachHang.setText(tblLichDat.getValueAt(viTri, 4).toString());
+        cbb.setSelectedItem(tblLichDat.getValueAt(viTri, 6).toString());
         txtHoTen.setText(kh.getHoTen());
         txtSoDienThoai.setText(kh.getSoDienThoai());
         txtEmail.setText(kh.getEmail());
@@ -635,12 +636,12 @@ public class DatLich extends javax.swing.JPanel {
             return ;
         }
         ld.setMaLichDat((int) tblLichDat.getValueAt(viTri,0));
+        ld.setTrangThai(tblLichDat.getValueAt(viTri, 7).toString());
         try {
             lddao.update(ld);
             DialogHelper.alert(this, "Sửa lịch thành công");
             fillTableLichDat(true);
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
     void updateStatus(boolean trangThai){
@@ -661,12 +662,16 @@ public class DatLich extends javax.swing.JPanel {
             return ;
         }
         int maLichDat = (int) tblLichDat.getValueAt(viTri, 0);
+        KhachHang kh = khdao.selectByID(tblLichDat.getValueAt(viTri, 4).toString());
         try {
-            lddao.huyLich(false, maLichDat);
+            if (DialogHelper.confirm(this,"Họ tên :"+kh.getHoTen()+"\nSố điện thoại :"+kh.getSoDienThoai()+"\nNgày đặt lịch :"+tblLichDat.getValueAt(viTri,1).toString()
+                                +"\nNgày cắt :"+tblLichDat.getValueAt(viTri,2).toString()+"\nGiờ đặt :"
+                                +tblLichDat.getValueAt(viTri, 6).toString()+"\nBạn có thực sự muốn hủy lịch này ?")) {
+                lddao.huyLich(false, maLichDat);
             DialogHelper.alert(this, "Hủy lịch thành công !");
             fillTableLichDat(true);
+            }
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
         void taodatLich() {
