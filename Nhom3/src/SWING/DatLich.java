@@ -177,19 +177,15 @@ public class DatLich extends javax.swing.JPanel {
 
         add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 740, 310));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel1.setText("Mã khách hàng :");
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel2.setText("Họ tên :");
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel3.setText("Số điện thoại :");
         add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, -1, -1));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel4.setText("Email :");
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 30, -1, -1));
 
@@ -198,7 +194,6 @@ public class DatLich extends javax.swing.JPanel {
         rdoNam.setText("Nam");
         add(rdoNam, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 100, -1, -1));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel5.setText("Giới tính :");
         add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 100, -1, -1));
 
@@ -207,19 +202,15 @@ public class DatLich extends javax.swing.JPanel {
         rdoNu.setText("Nữ");
         add(rdoNu, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 100, -1, -1));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel6.setText("Địa chỉ :");
         add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 150, -1, -1));
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel7.setText("Ngày bắt đầu :");
         add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 30, -1, -1));
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel8.setText("Ngày cắt :");
         add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 80, 100, -1));
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel10.setText("Ghi chú :");
         add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 140, -1, -1));
         add(txtMaKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, 200, 40));
@@ -325,7 +316,6 @@ public class DatLich extends javax.swing.JPanel {
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 0, 250, 170));
 
-        cbb.setEditable(true);
         cbb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "8:30", "9:30", "10:30", "11:30", "13:30", "14:30", "15:30", "16:30", "17:30", "19:30", "20:30" }));
         cbb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -377,7 +367,30 @@ public class DatLich extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        suaLich();
+        LichDat dl=getFormDatLich();
+        String sql="select*from lichdat";
+        try {
+            ResultSet rs=JdbcHelper.executeQuery(sql);
+            while(rs.next()){
+                Object[] item=new Object[4];
+                item[0]=rs.getInt("malichdat");
+                item[1]=rs.getString("ngaybatdau");
+                item[2]=rs.getString("gioDat");
+                item[3]=rs.getString("manhanvien");
+                int malichdat=Integer.valueOf(item[0].toString());
+                String ngaybatdau=DateHelper.toString(dl.getNgayBatDau(),"yyyy-MM-dd");
+                if(ngaybatdau.equals(item[1].toString())&&dl.getGioDat().equals(item[2].toString())
+                        ){
+                    DialogHelper.alert(this,"Lịch đã có người đặt");
+                    return;
+                }
+            
+        }
+              suaLich();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -398,7 +411,7 @@ public class DatLich extends javax.swing.JPanel {
                 item[3]=rs.getString("manhanvien");
                 int malichdat=Integer.valueOf(item[0].toString());
                 String ngaybatdau=DateHelper.toString(dl.getNgayBatDau(),"yyyy-MM-dd");
-                if(dl.getMaNhanVien().equals(item[3].toString())&&ngaybatdau.equals(item[1].toString())&&dl.getGioDat().equals(item[2].toString())
+                if(ngaybatdau.equals(item[1].toString())&&dl.getGioDat().equals(item[2].toString())
                         ){
                     DialogHelper.alert(this,"Lịch đã có người đặt");
                     return;
